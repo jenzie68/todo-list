@@ -3,8 +3,15 @@ const allProject = [];
 const addProject = (title) => {
     const allTasks = [];
 
-    const addTask = (taskName,detail = 'none') => {
-        allTasks.push({name: taskName, description: detail})
+    const addTask = (taskName,detail = 'none',dueDate, priorityList = 'not important') => {
+        allTasks.push(
+            {
+                name: taskName,
+            description: detail, 
+            date: dueDate,
+            priority : priorityList
+            }
+        )
         console.log(allTasks);
     };
 

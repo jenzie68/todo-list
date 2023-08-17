@@ -15,7 +15,7 @@
   \**********************/
 /***/ (() => {
 
-eval("const allProject = [];\n\nfunction addProject(title) {\n    const project = {\n        name : title,\n        task : {\n            descrption: '',\n            date: '',\n        }\n    }\n\n    allProject.push(project)\n}\n\naddProject('study');\nconsole.log(allProject);\n\n\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("const allProject = [];\n\nconst addProject = (title) => {\n    const allTasks = [];\n\n    const addTask = (taskName,detail = 'none',dueDate, priorityList = 'not important') => {\n        allTasks.push(\n            {\n                name: taskName,\n            description: detail, \n            date: dueDate,\n            priority : priorityList\n            }\n        )\n        console.log(allTasks);\n    };\n\n    const deleteTask = (index) => {\n        allTasks.splice(index,1);\n        console.log('task has been deleted');\n        console.log(allTasks);\n    }\n\n    const deleteProject = () => {\n        const alert = prompt('are you sure you want your project deleted?')\n        if(alert == 'yes') {\n        allProject.splice(allProject.indexOf(title),1);\n        }\n        console.log(allProject);\n    }\n\n    allProject.push(title);\n    console.log(allProject);\n\n    return {\n        title,\n        addTask, \n        allTasks,\n        deleteProject,\n        deleteTask\n    };\n}\n\nconsole.log(allProject);\n\n\n\n\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 
 /***/ })
 
