@@ -1,81 +1,80 @@
-const allProject = [];
+const allProjects = [];
 
 const addProject = (title) => {
-    
-    const allTasks = [];
+    const project = makeProject(title);
+    allProjects.push(project);
+    console.log(allProjects);
+};
 
-    const addTask = (taskName,detail = 'none',dueDate, priorityList = 'not important') => {
-        allTasks.push(
-            {
-                name: taskName,
-            description: detail, 
-            date: dueDate,
-            priority : priorityList
-            }
-        )
-        console.log(allTasks);
-    };
-
-    const deleteTask = (index) => {
-        allTasks.splice(index,1);
-        console.log('task has been deleted');
-        console.log(allTasks);
-    };
-
-    const deleteProject = () => {
-        const alert = prompt('are you sure you want your project deleted?')
-        if(alert == 'yes') {
-        allProject.splice(allProject.indexOf(title),1);
-        }
-        console.log(allProject);
+const makeProject = (projectTitle) => {
+    const project = {
+        projectName: projectTitle,
+        allTasks: []
     }
 
-    console.log(allProject);
+    const controlFeature = taskOperations(project);
+    const addTask = controlFeature.addTask;
+    const deleteTask = controlFeature.deleteTask;
+    const deleteProject = controlFeature.deleteProject;
+    const editTask = controlFeature.editTasks;
 
     return {
-        title,
-        addTask, 
-        allTasks,
+        project,
         deleteProject,
-        deleteTask
+        addTask,
+        deleteTask,
+        editTask,
     };
 };
 
-function makeBtn(name) {
-    const btn = document.createElement('button');
-    const projects = document.querySelector('.content');
-    btn.textContent = name;
-    projects.appendChild(btn);
-    btn.addEventListener('click', () => {
-        const addTaskbtn = document.createElement('button');
-        const tasks = document.querySelector('.tasks');
-        addTaskbtn.textContent = 'addtask';
-        tasks.appendChild(addTaskbtn);
-        addTaskbtn.addEventListener('click', () => {
-            const index = allProject.findIndex(i => i.title == name);
-            const taskName = prompt('task name');
-            allProject[index].addTask(taskName);
-            const div = document.createElement('div');
-            div.textContent = taskName;
-            const tasks = document.querySelector('.tasks');
-            tasks.appendChild(div);
-            console.log(allProject);
-        });
-    });
+const taskOperations = (project) => {
+    const addTask = (taskName, details,dueDate,priorityList) => {
+        const task = {
+            name: taskName,
+            description: details,
+            date: dueDate,
+            priority: priorityList
+        };
+
+        project.allTasks.push(task);
+        viewProjects();
+    
+        return {
+            taskName,
+            details,
+            dueDate,
+            priorityList,
+        };
+    };
+
+
+    const editTasks = (i) => {
+        return project.allTasks[i]
+    };
+    
+    const deleteTask = (index) => {
+        return project.allTasks.splice(index,1),
+        viewProjects();
+    };
+    
+    const deleteProject = (index) => {
+        index = allProjects.findIndex(p => (p.project.projectName === 'Home'));
+        allProjects.splice(index,1);
+        viewProjects();
+    };
+
+    return {
+        addTask,
+        editTasks,
+        deleteTask,
+        deleteProject
+    };
 };
 
-const btn = document.createElement('button');
-const content = document.querySelector('.content');
-btn.textContent = 'Add Project';
-content.appendChild(btn);
-btn.addEventListener('click',() => {
-    const title = prompt('your project name','study');
-    const project = addProject(title);
-    allProject.push(project);
-    makeBtn(title);
-});
+const viewProjects = () => {
+    console.log(allProjects);
+};
 
-console.log(allProject);
 
 
 
