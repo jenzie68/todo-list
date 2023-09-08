@@ -3,24 +3,29 @@ const allProjects = [];
 const addProject = (title) => {
     const project = makeProject(title);
     allProjects.push(project);
+};
+
+const deleteProject = (i) => {
+    allProjects.splice(i,1);
+};
+
+const viewProjects = () => {
     console.log(allProjects);
 };
 
 const makeProject = (projectTitle) => {
-    const project = {
+    const projectDetails = {
         projectName: projectTitle,
         allTasks: []
-    }
+    };
 
-    const controlFeature = taskOperations(project);
-    const addTask = controlFeature.addTask;
-    const deleteTask = controlFeature.deleteTask;
-    const deleteProject = controlFeature.deleteProject;
-    const editTask = controlFeature.editTasks;
+    const taskManagement = taskOperations(projectDetails);
+    const addTask = taskManagement.addTask;
+    const deleteTask = taskManagement.deleteTask;
+    const editTask = taskManagement.editTasks;
 
     return {
-        project,
-        deleteProject,
+        projectDetails,
         addTask,
         deleteTask,
         editTask,
@@ -47,19 +52,12 @@ const taskOperations = (project) => {
         };
     };
 
-
     const editTasks = (i) => {
         return project.allTasks[i]
     };
     
-    const deleteTask = (index) => {
-        return project.allTasks.splice(index,1),
-        viewProjects();
-    };
-    
-    const deleteProject = (index) => {
-        index = allProjects.findIndex(p => (p.project.projectName === 'Home'));
-        allProjects.splice(index,1);
+    const deleteTask = (i) => {
+        return project.allTasks.splice(i,1),
         viewProjects();
     };
 
@@ -67,13 +65,12 @@ const taskOperations = (project) => {
         addTask,
         editTasks,
         deleteTask,
-        deleteProject
     };
 };
 
-const viewProjects = () => {
-    console.log(allProjects);
-};
+
+
+
 
 
 
