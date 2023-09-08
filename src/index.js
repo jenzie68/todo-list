@@ -1,74 +1,78 @@
 const allProjects = [];
 
-const addProject = (title) => {
-    const project = makeProject(title);
-    allProjects.push(project);
-};
-
-const deleteProject = (i) => {
-    allProjects.splice(i,1);
-};
-
-const viewProjects = () => {
-    console.log(allProjects);
-};
-
-const makeProject = (projectTitle) => {
-    const projectDetails = {
-        projectName: projectTitle,
-        allTasks: []
+const projectManagement = () => {
+    const addProject = (title) => {
+        const project = makeProject(title);
+        allProjects.push(project);
     };
 
-    const taskManagement = taskOperations(projectDetails);
-    const addTask = taskManagement.addTask;
-    const deleteTask = taskManagement.deleteTask;
-    const editTask = taskManagement.editTasks;
-
-    return {
-        projectDetails,
-        addTask,
-        deleteTask,
-        editTask,
+    const editProjectName = (i, name) => {
+         allProjects[i].projectDetails.projectName = name
+    }
+    
+    const deleteProject = (i) => {
+        allProjects.splice(i,1);
     };
-};
-
-const taskOperations = (project) => {
-    const addTask = (taskName, details,dueDate,priorityList) => {
-        const task = {
-            name: taskName,
-            description: details,
-            date: dueDate,
-            priority: priorityList
+    
+    const viewProjects = () => {
+        console.log(allProjects);
+    };
+    
+    const makeProject = (projectTitle) => {
+        const projectDetails = {
+            projectName: projectTitle,
+            allTasks: []
         };
-
-        project.allTasks.push(task);
-        viewProjects();
+    
+        const taskManagement = new taskOperations(projectDetails);
+        const addTask = taskManagement.addTask;
+        const deleteTask = taskManagement.deleteTask;
+        const editTask = taskManagement.editTasks;
     
         return {
-            taskName,
-            details,
-            dueDate,
-            priorityList,
+            projectDetails,
+            addTask,
+            deleteTask,
+            editTask,
         };
     };
 
-    const editTasks = (i) => {
-        return project.allTasks[i]
-    };
-    
-    const deleteTask = (i) => {
-        return project.allTasks.splice(i,1),
-        viewProjects();
-    };
-
     return {
-        addTask,
-        editTasks,
-        deleteTask,
+        addProject,
+        deleteProject,
+        viewProjects,
+        editProjectName
     };
 };
 
+class taskOperations {
+    constructor(project)  {
+        this.project = project;
+    }
 
+    addTask = (name, details, date, priorityList) => {
+        const taskDetails = new task(name, details, date, priorityList);
+
+        this.project.allTasks.push(taskDetails);
+    }
+
+    deleteTask(i) {
+        return this.project.allTasks.splice(i,1)
+    };
+};
+
+class task {
+    constructor(taskName, description, dueDate, priorityList) {
+        this.taskName = taskName;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priorityList = priorityList;
+    };
+
+    set() {
+        [this.taskName, this.description, this.dueDate, this.priorityList] = value.split(" ");
+    };
+}
 
 
 
