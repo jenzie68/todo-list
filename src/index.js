@@ -1,3 +1,6 @@
+import projectNameDisplay from "./DOM.js";
+import "./style.css"
+
 const allProjects = [];
 
 const projectManagement = () => {
@@ -8,7 +11,7 @@ const projectManagement = () => {
 
     const editProjectName = (i, name) => {
          allProjects[i].projectDetails.projectName = name
-    }
+    };
     
     const deleteProject = (i) => {
         allProjects.splice(i,1);
@@ -23,6 +26,8 @@ const projectManagement = () => {
             projectName: projectTitle,
             allTasks: []
         };
+
+        projectNameDisplay(projectTitle);
     
         const taskManagement = new taskOperations(projectDetails);
         const addTask = taskManagement.addTask;
@@ -72,9 +77,7 @@ class task {
     set() {
         [this.taskName, this.description, this.dueDate, this.priorityList] = value.split(" ");
     };
-}
-
-
+};
 
 
 
