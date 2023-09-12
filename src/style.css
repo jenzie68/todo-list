@@ -1,3 +1,15 @@
 .title-add-project {
     display: flex;
+    outline-style: solid;
+    color: antiquewhite
+}
+
+.all-projects {
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
 };

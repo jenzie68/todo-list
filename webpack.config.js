@@ -1,13 +1,24 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    DOM: './src/DOM.js',
+  },
   devtool: 'inline-source-map',
   output: {
-    filename: 'main.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      hash: true,
+      title: 'todo-list',
+      template: './src/index.html',
+    }),
+  ],
   module: {
     rules: [
       {

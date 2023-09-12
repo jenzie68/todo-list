@@ -1,5 +1,6 @@
-import projectNameDisplay from "./DOM.js";
 import "./style.css"
+
+//logic code
 
 const allProjects = [];
 
@@ -78,6 +79,21 @@ class task {
         [this.taskName, this.description, this.dueDate, this.priorityList] = value.split(" ");
     };
 };
+
+//DOM
+
+function projectNameDisplay(projectName) {
+    projectName = prompt('your projectName?');
+    const projects = document.querySelector('.all-projects');
+    const btn = document.createElement('button');
+    btn.classList.add(projectName);
+    btn.textContent = projectName;
+    projects.appendChild(btn);
+};
+
+let addProjectBtn = document.querySelector('.add-project-btn');
+addProjectBtn.addEventListener('click',projectNameDisplay);
+
 
 
 
