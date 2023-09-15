@@ -27,8 +27,6 @@ const projectManagement = () => {
             projectName: projectTitle,
             allTasks: []
         };
-
-        projectNameDisplay(projectTitle);
     
         const taskManagement = new taskOperations(projectDetails);
         const addTask = taskManagement.addTask;
@@ -82,18 +80,68 @@ class task {
 
 //DOM
 
+const project = projectManagement();
+
 function projectNameDisplay(projectName) {
     projectName = prompt('your projectName?');
+    project.addProject(projectName);
+    project.viewProjects();
     const projects = document.querySelector('.all-projects');
     const btn = document.createElement('button');
     btn.classList.add(projectName);
     btn.textContent = projectName;
+    btn.addEventListener('click',() => projectDisplay(projectName));
     projects.appendChild(btn);
+};
+
+function projectDisplay(name) {
+    const viewPort = document.querySelector('.viewport');
+    viewPort.textContent = '';
+    const projectTitle = document.createElement('div');
+    projectTitle.classList.add('project-title');
+    projectTitle.setAttribute('id', name);
+    projectTitle.textContent = name;
+    projectTitle.addEventListener('click',() => changeName(name));
+    viewPort.appendChild(projectTitle);
+};
+
+function changeName(name) {
+    const viewPort = document.querySelector('.viewport');
+    const changeNameContainer = document.createElement('change-name-container');
+    viewPort.appendChild(changeNameContainer);
+    const newProjectTitle = document.createElement('input');
+    newProjectTitle.setAttribute('id','new-project-title');
+    newProjectTitle.setAttribute('type', 'text');
+    newProjectTitle.setAttribute('value', name);
+    viewPort.replaceChild(newProjectTitle, viewPort.firstElementChild);
+    changeNameContainer.appendChild(newProjectTitle);
+    const btnContainers = document.createElement('div');
+    btnContainers.classList.add('btn-containers');
+    const saveBtn = document.createElement('button');
+    saveBtn.addEventListener('click', () => saveName(name))
+    saveBtn.setAttribute('id','save-btn');
+    saveBtn.textContent = 'SAVE';
+    changeNameContainer.appendChild(btnContainers);
+    btnContainers.appendChild(saveBtn);
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = 'CANCEL';
+    cancelBtn.setAttribute('id','cancel-btn');
+    cancelBtn.addEventListener('click', () => projectDisplay(name))
+    btnContainers.appendChild(cancelBtn);
+};
+
+function saveName(name) {
+    const newProjectTitle = document.getElementById('new-project-title'); 
+    const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
+    project.editProjectName(index, newProjectTitle.value);
+    project.viewProjects();
+    projectDisplay(newProjectTitle.value);
+    const btn = document.querySelector('.' + name);
+    btn.textContent = newProjectTitle.value;
 };
 
 let addProjectBtn = document.querySelector('.add-project-btn');
 addProjectBtn.addEventListener('click',projectNameDisplay);
-
 
 
 

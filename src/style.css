@@ -1,12 +1,23 @@
 .title-add-project {
     display: flex;
     outline-style: solid;
-    color: antiquewhite
+    color: turquoise;
 }
 
 .all-projects {
     display: flex;
     flex-direction: column;
+}
+
+.viewport {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.newProjectTitle,
+.btn-containers {
+    display: flex;
 }
 
 body {
