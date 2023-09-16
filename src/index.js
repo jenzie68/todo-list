@@ -139,11 +139,26 @@ function saveName(name) {
     ChangeNamebtn.removeAttribute('id');
     ChangeNamebtn.setAttribute('id',`${newProjectTitle.value}-btn`);
     ChangeNamebtn.textContent = newProjectTitle.value;
+    ChangeNamebtn.addEventListener('click',() => projectDisplay(newProjectTitle.value));
     projectDisplay(newProjectTitle.value);
 };
 
-let addProjectBtn = document.querySelector('.add-project-btn');
+function deleteProject() {
+    const projectTitle = document.querySelector('.project-title');
+    const index = allProjects.findIndex(p => p.projectDetails.projectName === projectTitle.textContent);
+    project.deleteProject(index);
+    project.viewProjects();
+    const projectTitleBtn = document.getElementById(`${projectTitle.textContent}-btn`);
+    projectTitleBtn.remove();
+    const viewPort = document.querySelector('.viewport');
+    viewPort.textContent = '';
+};
+
+const addProjectBtn = document.querySelector('.add-project-btn');
 addProjectBtn.addEventListener('click',projectNameDisplay);
+const deleteProjectBtn = document.querySelector('.delete-project-btn');
+deleteProjectBtn.addEventListener('click',deleteProject);
+
 
 
 
