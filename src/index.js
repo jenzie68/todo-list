@@ -88,7 +88,7 @@ function projectNameDisplay(projectName) {
     project.viewProjects();
     const projects = document.querySelector('.all-projects');
     const btn = document.createElement('button');
-    btn.classList.add(projectName);
+    btn.setAttribute('id',`${projectName}-btn`);
     btn.textContent = projectName;
     btn.addEventListener('click',() => projectDisplay(projectName));
     projects.appendChild(btn);
@@ -135,9 +135,11 @@ function saveName(name) {
     const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
     project.editProjectName(index, newProjectTitle.value);
     project.viewProjects();
+    const ChangeNamebtn = document.getElementById(`${name}-btn`);
+    ChangeNamebtn.removeAttribute('id');
+    ChangeNamebtn.setAttribute('id',`${newProjectTitle.value}-btn`);
+    ChangeNamebtn.textContent = newProjectTitle.value;
     projectDisplay(newProjectTitle.value);
-    const btn = document.querySelector('.' + name);
-    btn.textContent = newProjectTitle.value;
 };
 
 let addProjectBtn = document.querySelector('.add-project-btn');
