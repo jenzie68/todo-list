@@ -20,6 +20,12 @@
     display: flex;
 }
 
+.task-form {
+    height: 10rem;
+    width: 15rem;
+    background-color: antiquewhite;
+}
+
 body {
     display: grid;
     grid-template-columns: 1fr 4fr;

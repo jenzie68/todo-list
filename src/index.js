@@ -1,4 +1,5 @@
 import "./style.css"
+import { compareAsc, format } from "date-fns";
 
 //logic code
 
@@ -102,7 +103,73 @@ function projectDisplay(name) {
     projectTitle.setAttribute('id', name);
     projectTitle.textContent = name;
     projectTitle.addEventListener('click',() => changeName(name));
+    const addTaskBtn = document.createElement('button');
+    addTaskBtn.addEventListener('click',() => taskForm(name));
+    addTaskBtn.textContent = 'add Task';
     viewPort.appendChild(projectTitle);
+    viewPort.appendChild(addTaskBtn);
+};
+
+function taskForm(name) {
+    const viewport = document.querySelector('.viewport');
+    const form = document.createElement('form');
+    form.classList.add('task-form');
+    viewport.appendChild(form);
+    const task = document.createElement('input');
+    task.setAttribute('type','text');
+    task.setAttribute('id','task-name');
+    task.setAttribute('value','Task name');
+    const description = document.createElement('input');
+    description.setAttribute('type','text');
+    description.setAttribute('id','description');
+    description.setAttribute('value','Description');
+    const date = document.createElement('input');
+    date.setAttribute('type','date');
+    date.setAttribute('id','date');
+    const priorityList = document.createElement('select');
+    priorityList.setAttribute('id','priority-list');
+    const urgent = document.createElement('option');
+    urgent.setAttribute('value','urgent');
+    urgent.textContent = 'urgent';
+    const important = document.createElement('option');
+    important.setAttribute('value','important');
+    important.textContent = 'important';
+    const notImportant = document.createElement('option');
+    notImportant.setAttribute('value','not-important');
+    notImportant.textContent = 'not-important';
+    const btnContainers = document.createElement('div');
+    const submitBtn = document.createElement('input');
+    submitBtn.setAttribute('type','submit');
+    submitBtn.setAttribute('id','submit-task-btn');
+    submitBtn.textContent = 'Submit';
+    submitBtn.addEventListener('click',(event) => {
+        event.preventDefault();
+        submitTaskForm(name);
+    });
+    const cancelBtn = document.createElement('button');
+    cancelBtn.setAttribute('id','cancel-task-btn');
+    cancelBtn.textContent = 'cancel';
+    cancelBtn.addEventListener('click',() => projectDisplay(name));
+    form.appendChild(task);
+    form.appendChild(description);
+    form.appendChild(date);
+    form.appendChild(priorityList);
+    priorityList.appendChild(urgent);
+    priorityList.appendChild(important);
+    priorityList.appendChild(notImportant);
+    form.appendChild(btnContainers);
+    btnContainers.appendChild(submitBtn);
+    btnContainers.appendChild(cancelBtn);
+};
+
+function submitTaskForm(name) {
+    const task = document.getElementById('task-name');
+    const description = document.getElementById('description');
+    const date = document.getElementById('date');
+    const priorityList = document.getElementById('priority-list');
+    const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
+    allProjects[index].addTask(task.value,description.value,date.value,priorityList.value);
+    project.viewProjects();
 };
 
 function changeName(name) {
