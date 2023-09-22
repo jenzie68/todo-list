@@ -30,3 +30,13 @@ body {
     display: grid;
     grid-template-columns: 1fr 4fr;
 };
+
+.task-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-task-list {
+    display: flex;
+    flex-direction: column;   
+}

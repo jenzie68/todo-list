@@ -91,7 +91,9 @@ function projectNameDisplay(projectName) {
     const btn = document.createElement('button');
     btn.setAttribute('id',`${projectName}-btn`);
     btn.textContent = projectName;
-    btn.addEventListener('click',() => projectDisplay(projectName));
+    btn.addEventListener('click',() => {
+        projectDisplay(projectName)
+    });
     projects.appendChild(btn);
 };
 
@@ -170,6 +172,58 @@ function submitTaskForm(name) {
     const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
     allProjects[index].addTask(task.value,description.value,date.value,priorityList.value);
     project.viewProjects();
+    projectDisplay(name);
+    addTaskDOM(task.value, description.value, date.value, priorityList.value);
+};
+
+function addTaskDOM(task, description, date, priority) {
+    const form = document.querySelector('.form-task-list');
+    const container = document.createElement('div');
+    container.classList.add('task-container');
+    const input = document.createElement('input');
+    input.setAttribute('type','checkbox');
+    const label = document.createElement('label');
+    label.setAttribute('id',task);
+    const h3 = document.createElement('h3');
+    h3.textContent = task;
+    const div = document.createElement('div');
+    div.textContent = description, date, priority;
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'delete';
+    deleteBtn.addEventListener('click', () => deleteTask());
+    const editTaskBtn = document.createElement('button');
+    editTaskBtn.textContent = 'edit';
+    editTaskBtn.setAttribute('id', task);
+    editTaskBtn.addEventListener('click',(e) => {
+        e.preventDefault();
+        editTask(e.target.id);
+    });
+    form.appendChild(container);
+    container.appendChild(label);
+    container.appendChild(input);
+    form.appendChild(deleteBtn);
+    form.appendChild(editTaskBtn);
+    label.appendChild(h3);
+    label.appendChild(div);
+};
+
+function editTask(id) {
+    const name = document.querySelector('.project-title').textContent;
+    const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
+    const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === id);
+    taskForm(name);
+    const task = document.getElementById('task-name');
+    const description = document.getElementById('description');
+    const date = document.getElementById('date');
+    const priorityList = document.getElementById('priority-list'); 
+    task.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName
+    description.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].description
+    date.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].dueDate
+    priorityList.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].priorityList
+};
+
+function deleteTask() {
+
 };
 
 function changeName(name) {
@@ -219,10 +273,18 @@ function deleteProject() {
     projectTitleBtn.remove();
     const viewPort = document.querySelector('.viewport');
     viewPort.textContent = '';
+    const formTaskLike = document.querySelector('.form-task-list');
+    formTaskLike.remove();
 };
 
 const addProjectBtn = document.querySelector('.add-project-btn');
-addProjectBtn.addEventListener('click',projectNameDisplay);
+addProjectBtn.addEventListener('click', () => {
+    projectNameDisplay()
+    const container = document.querySelector('.container');
+    const formTaskList = document.createElement('form');
+    formTaskList.classList.add('form-task-list');
+    container.appendChild(formTaskList);
+});
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 deleteProjectBtn.addEventListener('click',deleteProject);
 
