@@ -119,17 +119,17 @@ function taskForm(name) {
     viewport.appendChild(form);
     const task = document.createElement('input');
     task.setAttribute('type','text');
-    task.setAttribute('id','task-name');
+    task.setAttribute('id','get-task-name');
     task.setAttribute('value','Task name');
     const description = document.createElement('input');
     description.setAttribute('type','text');
-    description.setAttribute('id','description');
+    description.setAttribute('id','get-description');
     description.setAttribute('value','Description');
     const date = document.createElement('input');
     date.setAttribute('type','date');
-    date.setAttribute('id','date');
+    date.setAttribute('id','get-date');
     const priorityList = document.createElement('select');
-    priorityList.setAttribute('id','priority-list');
+    priorityList.setAttribute('id','get-priority-list');
     const urgent = document.createElement('option');
     urgent.setAttribute('value','urgent');
     urgent.textContent = 'urgent';
@@ -165,10 +165,10 @@ function taskForm(name) {
 };
 
 function submitTaskForm(name) {
-    const task = document.getElementById('task-name');
-    const description = document.getElementById('description');
-    const date = document.getElementById('date');
-    const priorityList = document.getElementById('priority-list');
+    const task = document.getElementById('get-task-name');
+    const description = document.getElementById('get-description');
+    const date = document.getElementById('get-date');
+    const priorityList = document.getElementById('get-priority-list');
     const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
     allProjects[index].addTask(task.value,description.value,date.value,priorityList.value);
     project.viewProjects();
@@ -185,41 +185,70 @@ function addTaskDOM(task, description, date, priority) {
     const label = document.createElement('label');
     label.setAttribute('id',task);
     const h3 = document.createElement('h3');
+    h3.setAttribute('id','task-name');
     h3.textContent = task;
     const div = document.createElement('div');
+    div.setAttribute('id','description');
     div.textContent = description, date, priority;
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'delete';
     deleteBtn.addEventListener('click', () => deleteTask());
     const editTaskBtn = document.createElement('button');
     editTaskBtn.textContent = 'edit';
-    editTaskBtn.setAttribute('id', task);
+    editTaskBtn.setAttribute('class', task);
     editTaskBtn.addEventListener('click',(e) => {
         e.preventDefault();
-        editTask(e.target.id);
+        editTask(e.target.className);
     });
     form.appendChild(container);
     container.appendChild(label);
     container.appendChild(input);
-    form.appendChild(deleteBtn);
-    form.appendChild(editTaskBtn);
+    container.appendChild(deleteBtn);
+    container.appendChild(editTaskBtn);
     label.appendChild(h3);
     label.appendChild(div);
 };
 
-function editTask(id) {
+function editTask(classList) {
     const name = document.querySelector('.project-title').textContent;
     const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
-    const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === id);
+    const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === classList);
     taskForm(name);
-    const task = document.getElementById('task-name');
-    const description = document.getElementById('description');
-    const date = document.getElementById('date');
-    const priorityList = document.getElementById('priority-list'); 
-    task.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName
-    description.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].description
-    date.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].dueDate
-    priorityList.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].priorityList
+    const task = document.getElementById('get-task-name');
+    const description = document.getElementById('get-description');
+    const date = document.getElementById('get-date');
+    const priorityList = document.getElementById('get-priority-list'); 
+    task.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName;
+    description.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].description;
+    date.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].dueDate;
+    priorityList.value = allProjects[projectIndex].projectDetails.allTasks[taskIndex].priorityList;
+    const submitTaskBtn = document.getElementById('submit-task-btn'); 
+    const saveTaskBtn = document.createElement('button');
+    saveTaskBtn.setAttribute('id','save-task-btn');
+    saveTaskBtn.textContent = 'SAVE';
+    saveTaskBtn.addEventListener('click',(e) => {
+        e.preventDefault();
+        submitEditTask(projectIndex, taskIndex, task, description, date, priorityList);
+    });
+    submitTaskBtn.replaceWith(saveTaskBtn);
+};
+
+function submitEditTask(index, index2, newTask, newDescription, newDate, newPriorityList) {
+    const currentTaskName = allProjects[index].projectDetails.allTasks[index2].taskName;
+    const id = document.getElementById(currentTaskName);
+    id.textContent = '';
+    allProjects[index].projectDetails.allTasks[index2].taskName = newTask.value;
+    allProjects[index].projectDetails.allTasks[index2].description = newDescription.value;
+    allProjects[index].projectDetails.allTasks[index2].dueDate = newDate.value;
+    allProjects[index].projectDetails.allTasks[index2].priorityList = newPriorityList.value;
+    const h3 = document.createElement('h3');
+    h3.textContent = newTask.value;
+    const div = document.createElement('div');
+    div.textContent = newDescription.value;
+    id.appendChild(h3);
+    id.appendChild(div);
+    const taskForm = document.querySelector('.task-form');
+    taskForm.remove();
 };
 
 function deleteTask() {
