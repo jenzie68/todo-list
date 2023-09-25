@@ -8,11 +8,7 @@ const project = projectManagement();
 
 const addProjectBtn = document.querySelector('.add-project-btn');
 addProjectBtn.addEventListener('click', () => {
-    projectNameDisplay()
-    const main = document.querySelector('.main');
-    const todoList = document.createElement('form');
-    todoList.classList.add('todo-list');
-    main.appendChild(todoList);
+    projectNameDisplay();
 });
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 deleteProjectBtn.addEventListener('click',deleteProject);
