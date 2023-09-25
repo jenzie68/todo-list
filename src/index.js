@@ -189,6 +189,9 @@ function deleteTask(nameOfTask) {
     const name = document.querySelector('.project-title').textContent;
     const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
     const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === nameOfTask);
+    const currentTaskName = allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName;
+    const id = document.querySelector(`[data-name='${currentTaskName}']`);
+    id.remove();
     allProjects[projectIndex].deleteTask(taskIndex);
     project.viewProjects();
 };
