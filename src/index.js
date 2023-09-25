@@ -17,7 +17,6 @@ addProjectBtn.addEventListener('click', () => {
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 deleteProjectBtn.addEventListener('click',deleteProject);
 
-
 function projectNameDisplay(projectName) {
     projectName = prompt('your projectName?');
     project.addProject(projectName);
@@ -26,13 +25,22 @@ function projectNameDisplay(projectName) {
     const btn = document.createElement('button');
     btn.setAttribute('id',`${projectName}-btn`);
     btn.textContent = projectName;
-    btn.addEventListener('click',() => {
-        projectDisplay(projectName)
-    });
+    btn.addEventListener('click',() => projectTaskDisplay(projectName) )
     projects.appendChild(btn);
 };
 
-function projectDisplay(name) {
+function projectTaskDisplay(nameOfProject) {
+    headerDisplay(nameOfProject);
+    const name = document.querySelector('.project-title').textContent;
+    const todoList = document.querySelector('.todo-list');
+    todoList.textContent = '';
+    const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
+    allProjects[projectIndex].projectDetails.allTasks.forEach(task => {
+        addTaskDOM(task.taskName, task.description, task.date, task.priorityList);
+    });
+}
+
+function headerDisplay(name) {
     const header = document.querySelector('.header');
     header.textContent = '';
     const projectTitle = document.createElement('div');
@@ -55,11 +63,11 @@ function taskForm(name) {
     const task = document.createElement('input');
     task.setAttribute('type','text');
     task.setAttribute('id','get-task-name');
-    task.setAttribute('value','Task name');
+    task.setAttribute('placeholder','Task name');
     const description = document.createElement('input');
     description.setAttribute('type','text');
     description.setAttribute('id','get-description');
-    description.setAttribute('value','Description');
+    description.setAttribute('placeholder','Description');
     const date = document.createElement('input');
     date.setAttribute('type','date');
     date.setAttribute('id','get-date');
@@ -86,7 +94,7 @@ function taskForm(name) {
     const cancelBtn = document.createElement('button');
     cancelBtn.setAttribute('id','cancel-task-btn');
     cancelBtn.textContent = 'cancel';
-    cancelBtn.addEventListener('click',() => projectDisplay(name));
+    cancelBtn.addEventListener('click',() => headerDisplay(name));
     form.appendChild(task);
     form.appendChild(description);
     form.appendChild(date);
@@ -107,7 +115,7 @@ function submitTaskForm(name) {
     const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
     allProjects[index].addTask(task.value,description.value,date.value,priorityList.value);
     project.viewProjects();
-    projectDisplay(name);
+    headerDisplay(name);
     addTaskDOM(task.value, description.value, date.value, priorityList.value);
 };
 
@@ -217,7 +225,7 @@ function changeName(name) {
     const cancelBtn = document.createElement('button');
     cancelBtn.textContent = 'CANCEL';
     cancelBtn.setAttribute('id','cancel-btn');
-    cancelBtn.addEventListener('click', () => projectDisplay(name))
+    cancelBtn.addEventListener('click', () => headerDisplay(name))
     btnContainers.appendChild(cancelBtn);
 };
 
@@ -230,8 +238,8 @@ function saveName(name) {
     ChangeNamebtn.removeAttribute('id');
     ChangeNamebtn.setAttribute('id',`${newProjectTitle.value}-btn`);
     ChangeNamebtn.textContent = newProjectTitle.value;
-    ChangeNamebtn.addEventListener('click',() => projectDisplay(newProjectTitle.value));
-    projectDisplay(newProjectTitle.value);
+    ChangeNamebtn.addEventListener('click',() => headerDisplay(newProjectTitle.value));
+    headerDisplay(newProjectTitle.value);
 };
 
 function deleteProject() {
