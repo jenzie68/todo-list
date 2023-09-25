@@ -57,7 +57,7 @@ class taskOperations {
     }
 
     deleteTask(i) {
-        return this.project.allTasks.splice(i,1)
+        return this.projectDetails.allTasks.splice(i,1)
     };
 };
 

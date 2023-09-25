@@ -128,7 +128,10 @@ function addTaskDOM(task, description, date, priority) {
     div.textContent = description, date, priority;
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'delete';
-    deleteBtn.addEventListener('click', () => deleteTask(task));
+    deleteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        deleteTask(task);
+    });
     const editTaskBtn = document.createElement('button');
     editTaskBtn.textContent = 'edit';
     editTaskBtn.addEventListener('click',(e) => {
@@ -179,10 +182,15 @@ function submitEditTask(index, index2, newTask, newDescription, newDate, newPrio
     allProjects[index].projectDetails.allTasks[index2].priorityList = newPriorityList.value;
     const taskForm = document.querySelector('.task-form');
     taskForm.remove();
+    project.viewProjects();
 };
 
-function deleteTask() {
-    
+function deleteTask(nameOfTask) {
+    const name = document.querySelector('.project-title').textContent;
+    const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
+    const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === nameOfTask);
+    allProjects[projectIndex].deleteTask(taskIndex);
+    project.viewProjects();
 };
 
 function changeName(name) {
