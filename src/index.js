@@ -9,10 +9,10 @@ const project = projectManagement();
 const addProjectBtn = document.querySelector('.add-project-btn');
 addProjectBtn.addEventListener('click', () => {
     projectNameDisplay()
-    const container = document.querySelector('.container');
-    const formTaskList = document.createElement('form');
-    formTaskList.classList.add('form-task-list');
-    container.appendChild(formTaskList);
+    const main = document.querySelector('.main');
+    const todoList = document.createElement('form');
+    todoList.classList.add('todo-list');
+    main.appendChild(todoList);
 });
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 deleteProjectBtn.addEventListener('click',deleteProject);
@@ -33,8 +33,8 @@ function projectNameDisplay(projectName) {
 };
 
 function projectDisplay(name) {
-    const viewPort = document.querySelector('.viewport');
-    viewPort.textContent = '';
+    const header = document.querySelector('.header');
+    header.textContent = '';
     const projectTitle = document.createElement('div');
     projectTitle.classList.add('project-title');
     projectTitle.setAttribute('id', name);
@@ -43,15 +43,15 @@ function projectDisplay(name) {
     const addTaskBtn = document.createElement('button');
     addTaskBtn.addEventListener('click',() => taskForm(name));
     addTaskBtn.textContent = 'add Task';
-    viewPort.appendChild(projectTitle);
-    viewPort.appendChild(addTaskBtn);
+    header.appendChild(projectTitle);
+    header.appendChild(addTaskBtn);
 };
 
 function taskForm(name) {
-    const viewport = document.querySelector('.viewport');
+    const header = document.querySelector('.header');
     const form = document.createElement('form');
     form.classList.add('task-form');
-    viewport.appendChild(form);
+    header.appendChild(form);
     const task = document.createElement('input');
     task.setAttribute('type','text');
     task.setAttribute('id','get-task-name');
@@ -112,7 +112,7 @@ function submitTaskForm(name) {
 };
 
 function addTaskDOM(task, description, date, priority) {
-    const form = document.querySelector('.form-task-list');
+    const form = document.querySelector('.todo-list');
     const container = document.createElement('div');
     container.setAttribute('id','task-container');
     container.setAttribute('data-name', task);
@@ -173,8 +173,8 @@ function editTask(nameOfTask) {
 
 function submitEditTask(index, index2, newTask, newDescription, newDate, newPriorityList) {
     const currentTaskName = allProjects[index].projectDetails.allTasks[index2].taskName;
-    const id = document.querySelector(`[data-name='${currentTaskName}']`);
-    id.remove();
+    const dataAttribute = document.querySelector(`[data-name='${currentTaskName}']`);
+    dataAttribute.remove();
     addTaskDOM(newTask.value, newDescription.value, newDate.value, newPriorityList.value);
     allProjects[index].projectDetails.allTasks[index2].taskName = newTask.value;
     allProjects[index].projectDetails.allTasks[index2].description = newDescription.value;
@@ -190,21 +190,21 @@ function deleteTask(nameOfTask) {
     const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
     const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === nameOfTask);
     const currentTaskName = allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName;
-    const id = document.querySelector(`[data-name='${currentTaskName}']`);
-    id.remove();
+    const dataAttribute = document.querySelector(`[data-name='${currentTaskName}']`);
+    dataAttribute.remove();
     allProjects[projectIndex].deleteTask(taskIndex);
     project.viewProjects();
 };
 
 function changeName(name) {
-    const viewPort = document.querySelector('.viewport');
+    const header = document.querySelector('.header');
     const changeNameContainer = document.createElement('change-name-container');
-    viewPort.appendChild(changeNameContainer);
+    header.appendChild(changeNameContainer);
     const newProjectTitle = document.createElement('input');
     newProjectTitle.setAttribute('id','new-project-title');
     newProjectTitle.setAttribute('type', 'text');
     newProjectTitle.setAttribute('value', name);
-    viewPort.replaceChild(newProjectTitle, viewPort.firstElementChild);
+    header.replaceChild(newProjectTitle, header.firstElementChild);
     changeNameContainer.appendChild(newProjectTitle);
     const btnContainers = document.createElement('div');
     btnContainers.classList.add('btn-containers');
@@ -241,10 +241,10 @@ function deleteProject() {
     project.viewProjects();
     const projectTitleBtn = document.getElementById(`${projectTitle.textContent}-btn`);
     projectTitleBtn.remove();
-    const viewPort = document.querySelector('.viewport');
-    viewPort.textContent = '';
-    const formTaskLike = document.querySelector('.form-task-list');
-    formTaskLike.remove();
+    const header = document.querySelector('.header');
+    header.textContent = '';
+    const todoList = document.querySelector('.todo-list');
+    todoList.remove();
 };
 
 

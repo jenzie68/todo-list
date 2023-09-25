@@ -9,7 +9,7 @@
     flex-direction: column;
 }
 
-.viewport {
+.header {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -36,7 +36,7 @@ body {
     flex-direction: column;
 }
 
-.form-task-list {
+.todo-list {
     display: flex;
     flex-direction: column;   
 }
