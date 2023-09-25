@@ -1,87 +1,22 @@
 import "./style.css"
-import { compareAsc, format } from "date-fns";
-
-//logic code
-
-const allProjects = [];
-
-const projectManagement = () => {
-    const addProject = (title) => {
-        const project = makeProject(title);
-        allProjects.push(project);
-    };
-
-    const editProjectName = (i, name) => {
-         allProjects[i].projectDetails.projectName = name
-    };
-    
-    const deleteProject = (i) => {
-        allProjects.splice(i,1);
-    };
-    
-    const viewProjects = () => {
-        console.log(allProjects);
-    };
-    
-    const makeProject = (projectTitle) => {
-        const projectDetails = {
-            projectName: projectTitle,
-            allTasks: []
-        };
-    
-        const taskManagement = new taskOperations(projectDetails);
-        const addTask = taskManagement.addTask;
-        const deleteTask = taskManagement.deleteTask;
-        const editTask = taskManagement.editTasks;
-    
-        return {
-            projectDetails,
-            addTask,
-            deleteTask,
-            editTask,
-        };
-    };
-
-    return {
-        addProject,
-        deleteProject,
-        viewProjects,
-        editProjectName
-    };
-};
-
-class taskOperations {
-    constructor(project)  {
-        this.project = project;
-    }
-
-    addTask = (name, details, date, priorityList) => {
-        const taskDetails = new task(name, details, date, priorityList);
-
-        this.project.allTasks.push(taskDetails);
-    }
-
-    deleteTask(i) {
-        return this.project.allTasks.splice(i,1)
-    };
-};
-
-class task {
-    constructor(taskName, description, dueDate, priorityList) {
-        this.taskName = taskName;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.priorityList = priorityList;
-    };
-
-    set() {
-        [this.taskName, this.description, this.dueDate, this.priorityList] = value.split(" ");
-    };
-};
+import { projectManagement, allProjects } from "./logic";
 
 //DOM
 
+allProjects;
 const project = projectManagement();
+
+const addProjectBtn = document.querySelector('.add-project-btn');
+addProjectBtn.addEventListener('click', () => {
+    projectNameDisplay()
+    const container = document.querySelector('.container');
+    const formTaskList = document.createElement('form');
+    formTaskList.classList.add('form-task-list');
+    container.appendChild(formTaskList);
+});
+const deleteProjectBtn = document.querySelector('.delete-project-btn');
+deleteProjectBtn.addEventListener('click',deleteProject);
+
 
 function projectNameDisplay(projectName) {
     projectName = prompt('your projectName?');
@@ -179,11 +114,12 @@ function submitTaskForm(name) {
 function addTaskDOM(task, description, date, priority) {
     const form = document.querySelector('.form-task-list');
     const container = document.createElement('div');
-    container.classList.add('task-container');
+    container.setAttribute('id','task-container');
+    container.setAttribute('data-name', task);
     const input = document.createElement('input');
     input.setAttribute('type','checkbox');
     const label = document.createElement('label');
-    label.setAttribute('id',task);
+    label.setAttribute('class',task);
     const h3 = document.createElement('h3');
     h3.setAttribute('id','task-name');
     h3.textContent = task;
@@ -192,13 +128,12 @@ function addTaskDOM(task, description, date, priority) {
     div.textContent = description, date, priority;
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'delete';
-    deleteBtn.addEventListener('click', () => deleteTask());
+    deleteBtn.addEventListener('click', () => deleteTask(task));
     const editTaskBtn = document.createElement('button');
     editTaskBtn.textContent = 'edit';
-    editTaskBtn.setAttribute('class', task);
     editTaskBtn.addEventListener('click',(e) => {
         e.preventDefault();
-        editTask(e.target.className);
+        editTask(task);
     });
     form.appendChild(container);
     container.appendChild(label);
@@ -209,10 +144,10 @@ function addTaskDOM(task, description, date, priority) {
     label.appendChild(div);
 };
 
-function editTask(classList) {
+function editTask(nameOfTask) {
     const name = document.querySelector('.project-title').textContent;
     const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
-    const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === classList);
+    const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === nameOfTask);
     taskForm(name);
     const task = document.getElementById('get-task-name');
     const description = document.getElementById('get-description');
@@ -235,24 +170,19 @@ function editTask(classList) {
 
 function submitEditTask(index, index2, newTask, newDescription, newDate, newPriorityList) {
     const currentTaskName = allProjects[index].projectDetails.allTasks[index2].taskName;
-    const id = document.getElementById(currentTaskName);
-    id.textContent = '';
+    const id = document.querySelector(`[data-name='${currentTaskName}']`);
+    id.remove();
+    addTaskDOM(newTask.value, newDescription.value, newDate.value, newPriorityList.value);
     allProjects[index].projectDetails.allTasks[index2].taskName = newTask.value;
     allProjects[index].projectDetails.allTasks[index2].description = newDescription.value;
     allProjects[index].projectDetails.allTasks[index2].dueDate = newDate.value;
     allProjects[index].projectDetails.allTasks[index2].priorityList = newPriorityList.value;
-    const h3 = document.createElement('h3');
-    h3.textContent = newTask.value;
-    const div = document.createElement('div');
-    div.textContent = newDescription.value;
-    id.appendChild(h3);
-    id.appendChild(div);
     const taskForm = document.querySelector('.task-form');
     taskForm.remove();
 };
 
 function deleteTask() {
-
+    
 };
 
 function changeName(name) {
@@ -305,18 +235,6 @@ function deleteProject() {
     const formTaskLike = document.querySelector('.form-task-list');
     formTaskLike.remove();
 };
-
-const addProjectBtn = document.querySelector('.add-project-btn');
-addProjectBtn.addEventListener('click', () => {
-    projectNameDisplay()
-    const container = document.querySelector('.container');
-    const formTaskList = document.createElement('form');
-    formTaskList.classList.add('form-task-list');
-    container.appendChild(formTaskList);
-});
-const deleteProjectBtn = document.querySelector('.delete-project-btn');
-deleteProjectBtn.addEventListener('click',deleteProject);
-
 
 
 
