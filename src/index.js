@@ -7,14 +7,17 @@ allProjects;
 const project = projectManagement();
 
 const addProjectBtn = document.querySelector('.add-project-btn');
-addProjectBtn.addEventListener('click', () => {
-    projectNameDisplay();
-});
+addProjectBtn.addEventListener('click', () => addProject());
 const deleteProjectBtn = document.querySelector('.delete-project-btn');
 deleteProjectBtn.addEventListener('click',deleteProject);
 
+function addProject() {
+    const getProjectTitle = document.getElementById('get-project-title');
+    projectNameDisplay(getProjectTitle.value);
+    getProjectTitle.value = '';
+}
+
 function projectNameDisplay(projectName) {
-    projectName = prompt('your projectName?');
     project.addProject(projectName);
     project.viewProjects();
     const projects = document.querySelector('.all-projects');
