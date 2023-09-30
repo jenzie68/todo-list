@@ -112,7 +112,6 @@ body {
 
 .today:hover,
 .upcoming:hover,
-.drop-down-btn:hover,
 #projects-btn:hover,
 .all-projects > button:hover {
     background: #6eb49f;
@@ -213,6 +212,13 @@ body {
     font-weight: bolder;
     color: white;
     border-style: none;
+}
+
+.delete-project-btn:hover {
+    border-style: solid;
+    border-color: #6eb49f;
+    background-color: white;
+    color: #6eb49f;
 }
 
 
