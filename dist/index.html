@@ -4,21 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<script defer src="index.bundle.js?ce7312660a3e74be1b9a"></script><script defer src="DOM.bundle.js?ce7312660a3e74be1b9a"></script></head>
+<script defer src="index.bundle.js?4998de2d190a8dbf49df"></script><script defer src="DOM.bundle.js?4998de2d190a8dbf49df"></script></head>
 <body>
     <div id="headline">
-        <div id="text"><img src="/src/icons/Group.svg" id="todo-list-icon">// TO-DO LIST</div></div>
+        <div id="text"><img src="/src/icons/Group.svg" id="todo-list-icon">// TO-DO LIST</div>
     </div>
     <div class="todo-list-container">
         <div class="side-bar">
-            <div class="title-add-project">
-                <button class="delete-project-btn">delete</button>
-                <button class="add-project-btn">+</button>
-                <input type="text" id="get-project-title">
-                <div class="title">projects:</div>
-            </div>
-            <div class="all-projects">
-            </div>
+                <button class="today">
+                    <img src="/src/icons/today-icon.svg" id="today-icon" class="sidebar-icons">
+                    <div>Today</div>
+                </button>
+                <button class="upcoming">
+                    <img src="/src/icons/upcoming-icon.svg" class="sidebar-icons">
+                    <div>Upcoming</div>
+                </button>
+                <div class="show-projects-container">
+                        <img src="/src/icons/bx_calendar-edit.svg" id="projects-icon" class="sidebar-icons">
+                        <button id="projects-btn">Projects</button>
+                        <button class="drop-down-btn">
+                            <img src="/src/icons/mingcute_down-fill.svg" id ="drop-down-icon" class="sidebar-icons">
+                        </button>
+                </div>
+                <div class="all-projects">
+                </div>
+                <div class="input-project">
+                    <div>
+                        <input type="text" id="get-project-title" placeholder="Type a project here">
+                        <button class="add-project-btn"><img src="/src/icons/material-symbols_add.svg"></button>
+                    </div>
+                    <button class="delete-project-btn">Delete</button>
+                </div>    
         </div>
         <div class="main">
             <div class="header"></div>
