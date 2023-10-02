@@ -37,6 +37,22 @@ function projectTaskDisplay(nameOfProject) {
     allProjects[projectIndex].projectDetails.allTasks.forEach(task => {
         addTaskDOM(task.taskName, task.description, task.date, task.priorityList);
     });
+    const containerTaskBtn = document.createElement('div');
+    containerTaskBtn.classList.add('container-task-btn')
+    const addTaskBtn = document.createElement('button');
+    const addIconImg = document.createElement('img');
+    const div = document.createElement('div');
+    addIconImg.setAttribute('src','/src/icons/material-symbols_add.svg')
+    addTaskBtn.addEventListener('click',(e) => {
+        e.preventDefault();
+        taskForm(name);
+    });
+    div.textContent = 'Add Task';
+    addTaskBtn.classList.add('add-task-btn');
+    todoList.appendChild(containerTaskBtn);
+    addTaskBtn.appendChild(addIconImg);
+    addTaskBtn.appendChild(div)
+    containerTaskBtn.appendChild(addTaskBtn);
 }
 
 function headerDisplay(name) {
@@ -47,11 +63,7 @@ function headerDisplay(name) {
     projectTitle.setAttribute('id', name);
     projectTitle.textContent = name;
     projectTitle.addEventListener('click',() => changeName(name));
-    const addTaskBtn = document.createElement('button');
-    addTaskBtn.addEventListener('click',() => taskForm(name));
-    addTaskBtn.textContent = 'add Task';
     header.appendChild(projectTitle);
-    header.appendChild(addTaskBtn);
 };
 
 function taskForm(name) {
@@ -63,7 +75,7 @@ function taskForm(name) {
     task.setAttribute('type','text');
     task.setAttribute('id','get-task-name');
     task.setAttribute('placeholder','Task name');
-    const description = document.createElement('input');
+    const description = document.createElement('textarea');
     description.setAttribute('type','text');
     description.setAttribute('id','get-description');
     description.setAttribute('placeholder','Description');
@@ -123,35 +135,49 @@ function addTaskDOM(task, description, date, priority) {
     const container = document.createElement('div');
     container.setAttribute('id','task-container');
     container.setAttribute('data-name', task);
-    const input = document.createElement('input');
-    input.setAttribute('type','checkbox');
-    const label = document.createElement('label');
-    label.setAttribute('class',task);
+    const bg = document.createElement('div');
+    bg.setAttribute('id','task-background');
+    const checkList = document.createElement('input');
+    checkList.setAttribute('type','checkbox');
+    const taskDisplay = document.createElement('label');
+    taskDisplay.setAttribute('class',task);
     const h3 = document.createElement('h3');
     h3.setAttribute('id','task-name');
     h3.textContent = task;
-    const div = document.createElement('div');
-    div.setAttribute('id','description');
-    div.textContent = description, date, priority;
+    const descDisplay = document.createElement('div');
+    descDisplay.setAttribute('id','description');
+    descDisplay.textContent = description;
+    const dateDisplay = document.createElement('div');
+    dateDisplay.setAttribute('id','date-display');
+    dateDisplay.textContent = date;
+    const taskBtns = document.createElement('div');
+    taskBtns.classList.add('taskBtns');
     const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'delete';
+    const deleteIcon = document.createElement('img');
+    deleteIcon.setAttribute('src','/src/icons/bi_trash-fill.svg');
     deleteBtn.addEventListener('click', (e) => {
         e.preventDefault();
         deleteTask(task);
     });
     const editTaskBtn = document.createElement('button');
-    editTaskBtn.textContent = 'edit';
+    const editIcon = document.createElement('img');
+    editIcon.setAttribute('src','/src/icons/tabler_edit.svg');
     editTaskBtn.addEventListener('click',(e) => {
         e.preventDefault();
         editTask(task);
     });
     form.appendChild(container);
-    container.appendChild(label);
-    container.appendChild(input);
-    container.appendChild(deleteBtn);
-    container.appendChild(editTaskBtn);
-    label.appendChild(h3);
-    label.appendChild(div);
+    container.appendChild(bg);
+    bg.appendChild(checkList);
+    bg.appendChild(taskDisplay);
+    bg.appendChild(dateDisplay);
+    bg.appendChild(taskBtns);
+    taskBtns.appendChild(deleteBtn);
+    deleteBtn.appendChild(deleteIcon);
+    taskBtns.appendChild(editTaskBtn);
+    editTaskBtn.appendChild(editIcon);
+    taskDisplay.appendChild(h3);
+    taskDisplay.appendChild(descDisplay);
 };
 
 function editTask(nameOfTask) {
@@ -190,6 +216,23 @@ function submitEditTask(index, index2, newTask, newDescription, newDate, newPrio
     const taskForm = document.querySelector('.task-form');
     taskForm.remove();
     project.viewProjects();
+    const todoList = document.querySelector('.todo-list');
+    const containerTaskBtn = document.createElement('div');
+    containerTaskBtn.classList.add('container-task-btn')
+    const addTaskBtn = document.createElement('button');
+    const addIconImg = document.createElement('img');
+    const div = document.createElement('div');
+    addIconImg.setAttribute('src','/src/icons/material-symbols_add.svg')
+    addTaskBtn.addEventListener('click',(e) => {
+        e.preventDefault();
+        taskForm(name);
+    });
+    div.textContent = 'Add Task';
+    addTaskBtn.classList.add('add-task-btn');
+    todoList.appendChild(containerTaskBtn);
+    addTaskBtn.appendChild(addIconImg);
+    addTaskBtn.appendChild(div)
+    containerTaskBtn.appendChild(addTaskBtn);
 };
 
 function deleteTask(nameOfTask) {
@@ -205,7 +248,8 @@ function deleteTask(nameOfTask) {
 
 function changeName(name) {
     const header = document.querySelector('.header');
-    const changeNameContainer = document.createElement('change-name-container');
+    const changeNameContainer = document.createElement('div');
+    changeNameContainer.classList.add('change-name-container');
     header.appendChild(changeNameContainer);
     const newProjectTitle = document.createElement('input');
     newProjectTitle.setAttribute('id','new-project-title');
@@ -251,7 +295,7 @@ function deleteProject() {
     const header = document.querySelector('.header');
     header.textContent = '';
     const todoList = document.querySelector('.todo-list');
-    todoList.remove();
+    todoList.textContent = '';
 };
 
 
