@@ -3,7 +3,7 @@ import { projectManagement, allProjects } from "./logic";
 
 //DOM
 
-allProjects;
+allProjects
 const project = projectManagement();
 
 const addProjectBtn = document.querySelector('.add-project-btn');
@@ -24,12 +24,15 @@ function projectNameDisplay(projectName) {
     const btn = document.createElement('button');
     btn.setAttribute('id',`${projectName}-btn`);
     btn.textContent = projectName;
-    btn.addEventListener('click',() => projectTaskDisplay(projectName) )
+    btn.addEventListener('click',() => {
+        headerDisplay(btn.textContent);
+        const currentProjectTitle = document.querySelector('.project-title').textContent;
+        projectTaskDisplay(currentProjectTitle);
+    })
     projects.appendChild(btn);
 };
 
-function projectTaskDisplay(nameOfProject) {
-    headerDisplay(nameOfProject);
+function projectTaskDisplay() {
     const name = document.querySelector('.project-title').textContent;
     const todoList = document.querySelector('.todo-list');
     todoList.textContent = '';
