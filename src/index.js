@@ -38,7 +38,7 @@ function projectTaskDisplay() {
     todoList.textContent = '';
     const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
     allProjects[projectIndex].projectDetails.allTasks.forEach(task => {
-        addTaskDOM(task.taskName, task.description, task.date, task.priorityList);
+        addTaskDOM(task.taskName, task.description, task.dueDate, task.priorityList);
     });
     makeAddTaskBtn();
 }
