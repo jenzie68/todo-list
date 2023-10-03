@@ -50,8 +50,8 @@ class taskOperations {
         this.project = project;
     }
 
-    addTask = (name, details, date, priorityList) => {
-        const taskDetails = new task(name, details, date, priorityList);
+    addTask = (name, details, date, priorityList, check) => {
+        const taskDetails = new task(name, details, date, priorityList, check);
 
         this.project.allTasks.push(taskDetails);
     }
@@ -62,11 +62,12 @@ class taskOperations {
 };
 
 class task {
-    constructor(taskName, description, dueDate, priorityList) {
+    constructor(taskName, description, dueDate, priorityList, checkBox) {
         this.taskName = taskName;
         this.description = description;
         this.dueDate = dueDate;
         this.priorityList = priorityList;
+        this.checkBox = checkBox;
     };
 
     set() {

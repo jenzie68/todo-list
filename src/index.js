@@ -37,6 +37,12 @@ function projectTaskDisplay(nameOfProject) {
     allProjects[projectIndex].projectDetails.allTasks.forEach(task => {
         addTaskDOM(task.taskName, task.description, task.date, task.priorityList);
     });
+    makeAddTaskBtn();
+}
+
+function makeAddTaskBtn() {
+    const name = document.querySelector('.project-title').textContent;
+    const todoList = document.querySelector('.todo-list');
     const containerTaskBtn = document.createElement('div');
     containerTaskBtn.classList.add('container-task-btn')
     const addTaskBtn = document.createElement('button');
@@ -49,10 +55,10 @@ function projectTaskDisplay(nameOfProject) {
     });
     div.textContent = 'Add Task';
     addTaskBtn.classList.add('add-task-btn');
-    todoList.appendChild(containerTaskBtn);
     addTaskBtn.appendChild(addIconImg);
     addTaskBtn.appendChild(div)
     containerTaskBtn.appendChild(addTaskBtn);
+    todoList.appendChild(containerTaskBtn);
 }
 
 function headerDisplay(name) {
@@ -128,6 +134,9 @@ function submitTaskForm(name) {
     project.viewProjects();
     headerDisplay(name);
     addTaskDOM(task.value, description.value, date.value, priorityList.value);
+    const addTaskBtn = document.querySelector('.container-task-btn');
+    addTaskBtn.remove();
+    makeAddTaskBtn();
 };
 
 function addTaskDOM(task, description, date, priority) {
@@ -216,23 +225,9 @@ function submitEditTask(index, index2, newTask, newDescription, newDate, newPrio
     const taskForm = document.querySelector('.task-form');
     taskForm.remove();
     project.viewProjects();
-    const todoList = document.querySelector('.todo-list');
-    const containerTaskBtn = document.createElement('div');
-    containerTaskBtn.classList.add('container-task-btn')
-    const addTaskBtn = document.createElement('button');
-    const addIconImg = document.createElement('img');
-    const div = document.createElement('div');
-    addIconImg.setAttribute('src','/src/icons/material-symbols_add.svg')
-    addTaskBtn.addEventListener('click',(e) => {
-        e.preventDefault();
-        taskForm(name);
-    });
-    div.textContent = 'Add Task';
-    addTaskBtn.classList.add('add-task-btn');
-    todoList.appendChild(containerTaskBtn);
-    addTaskBtn.appendChild(addIconImg);
-    addTaskBtn.appendChild(div)
-    containerTaskBtn.appendChild(addTaskBtn);
+    const addTaskBtn = document.querySelector('.container-task-btn');
+    addTaskBtn.remove();
+    makeAddTaskBtn();
 };
 
 function deleteTask(nameOfTask) {
