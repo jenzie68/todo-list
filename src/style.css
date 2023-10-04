@@ -39,6 +39,7 @@ body {
 
 .main {
     background-color: #bdd6d6;
+    overflow:hidden;
 }
 
 .title-add-project {
@@ -380,7 +381,7 @@ textarea {
     background-color: #fff;
     margin: 0;
     font: inherit;
-    color: lightslategray;
+    color: #6eb49f;
     width: 2.15em;
     height: 2.15em;
     border: 0.15em solid currentColor;
@@ -410,7 +411,6 @@ textarea {
     flex-direction: column;   
     height: 100%;
     gap: 1rem;
-    overflow: hidden;
 }
 
 .taskBtns {
@@ -430,6 +430,11 @@ textarea {
 .taskBtns > button:hover {
     background: whitesmoke;
 } 
+
+#date-display {
+    font-weight: bolder;
+    font-size: 1.6rem;
+}
 
 
 

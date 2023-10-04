@@ -38,7 +38,7 @@ function projectTaskDisplay() {
     todoList.textContent = '';
     const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
     allProjects[projectIndex].projectDetails.allTasks.forEach(task => {
-        addTaskDOM(task.taskName, task.description, task.dueDate, task.priorityList);
+        taskDisplay(task.taskName, task.description, task.dueDate, task.priorityList);
     });
     makeAddTaskBtn();
 }
@@ -136,13 +136,13 @@ function submitTaskForm(name) {
     allProjects[index].addTask(task.value,description.value,date.value,priorityList.value);
     project.viewProjects();
     headerDisplay(name);
-    addTaskDOM(task.value, description.value, date.value, priorityList.value);
+    taskDisplay(task.value, description.value, date.value, priorityList.value);
     const addTaskBtn = document.querySelector('.container-task-btn');
     addTaskBtn.remove();
     makeAddTaskBtn();
 };
 
-function addTaskDOM(task, description, date, priority) {
+function taskDisplay(task, description, date, priority) {
     const form = document.querySelector('.todo-list');
     const container = document.createElement('div');
     container.setAttribute('id','task-container');
@@ -151,6 +151,7 @@ function addTaskDOM(task, description, date, priority) {
     bg.setAttribute('id','task-background');
     const checkList = document.createElement('input');
     checkList.setAttribute('type','checkbox');
+    checkList.setAttribute('id', 'check-box')
     const taskDisplay = document.createElement('label');
     taskDisplay.setAttribute('class',task);
     const h3 = document.createElement('h3');
@@ -190,7 +191,19 @@ function addTaskDOM(task, description, date, priority) {
     editTaskBtn.appendChild(editIcon);
     taskDisplay.appendChild(h3);
     taskDisplay.appendChild(descDisplay);
+    priorityColor(priority, checkList, dateDisplay);
 };
+
+function priorityColor(priority, checkBox, date) {
+    if (priority == 'urgent') {
+        checkBox.style.backgroundColor = '#F65C5C';
+        date.style.color = '#F65C5C';
+    } else if (priority == 'important') {
+        checkBox.style.backgroundColor = '#F6D35C';
+        date.style.color = '#F6D35C';
+    }
+}
+
 
 function editTask(nameOfTask) {
     const name = document.querySelector('.project-title').textContent;
@@ -220,7 +233,7 @@ function submitEditTask(index, index2, newTask, newDescription, newDate, newPrio
     const currentTaskName = allProjects[index].projectDetails.allTasks[index2].taskName;
     const dataAttribute = document.querySelector(`[data-name='${currentTaskName}']`);
     dataAttribute.remove();
-    addTaskDOM(newTask.value, newDescription.value, newDate.value, newPriorityList.value);
+    taskDisplay(newTask.value, newDescription.value, newDate.value, newPriorityList.value);
     allProjects[index].projectDetails.allTasks[index2].taskName = newTask.value;
     allProjects[index].projectDetails.allTasks[index2].description = newDescription.value;
     allProjects[index].projectDetails.allTasks[index2].dueDate = newDate.value;
