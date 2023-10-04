@@ -38,7 +38,7 @@ function projectTaskDisplay() {
     todoList.textContent = '';
     const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === name);
     allProjects[projectIndex].projectDetails.allTasks.forEach(task => {
-        taskDisplay(task.taskName, task.description, task.dueDate, task.priorityList);
+        taskDisplay(task.taskName, task.description, task.dueDate, task.priorityList, task.checkBox);
     });
     makeAddTaskBtn();
 }
@@ -142,7 +142,7 @@ function submitTaskForm(name) {
     makeAddTaskBtn();
 };
 
-function taskDisplay(task, description, date, priority) {
+function taskDisplay(task, description, date, priority, checkBox) {
     const form = document.querySelector('.todo-list');
     const container = document.createElement('div');
     container.setAttribute('id','task-container');
@@ -151,7 +151,16 @@ function taskDisplay(task, description, date, priority) {
     bg.setAttribute('id','task-background');
     const checkList = document.createElement('input');
     checkList.setAttribute('type','checkbox');
-    checkList.setAttribute('id', 'check-box')
+    checkList.setAttribute('id', 'check-box');
+    checkBox == 'checked' ? checkList.checked = true : false;  
+    checkList.addEventListener('change' ,() => {
+        const saveCheckBox = storeCheckBox(task); 
+        if (checkList.checked == true) {
+            saveCheckBox.check();
+        } else {
+            saveCheckBox.unchecked();
+        }
+    });
     const taskDisplay = document.createElement('label');
     taskDisplay.setAttribute('class',task);
     const h3 = document.createElement('h3');
@@ -194,6 +203,24 @@ function taskDisplay(task, description, date, priority) {
     priorityColor(priority, checkList, dateDisplay);
 };
 
+const storeCheckBox = (nameOfTask) => {
+    const nameOfProject = document.querySelector('.project-title').textContent;
+    const projectIndex = allProjects.findIndex(p => p.projectDetails.projectName === nameOfProject);
+    const taskIndex = allProjects[projectIndex].projectDetails.allTasks.findIndex(p => p.taskName === nameOfTask);
+
+    function check() {
+        allProjects[projectIndex].projectDetails.allTasks[taskIndex].checkBox = 'checked';
+        project.viewProjects();
+    }
+
+    function unchecked() {
+        allProjects[projectIndex].projectDetails.allTasks[taskIndex].checkBox = 'unchecked';
+        project.viewProjects();
+    }
+    
+    return { check, unchecked }
+}
+
 function priorityColor(priority, checkBox, date) {
     if (priority == 'urgent') {
         checkBox.style.backgroundColor = '#F65C5C';
@@ -203,7 +230,6 @@ function priorityColor(priority, checkBox, date) {
         date.style.color = '#F6D35C';
     }
 }
-
 
 function editTask(nameOfTask) {
     const name = document.querySelector('.project-title').textContent;
