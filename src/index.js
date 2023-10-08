@@ -3,8 +3,10 @@ import { projectManagement, allProjects } from "./logic";
 
 //DOM
 
-allProjects
+allProjects;
 const project = projectManagement();
+checkProjectEmpty();
+console.log(allProjects);
 
 const addProjectBtn = document.querySelector('.add-project-btn');
 addProjectBtn.addEventListener('click', () => addProject());
@@ -19,18 +21,23 @@ function addProject() {
 
 function projectNameDisplay(projectName) {
     project.addProject(projectName);
+    saveData();
+    makeProjectBtn(projectName);
     project.viewProjects();
+};
+
+function makeProjectBtn(name) {
     const projects = document.querySelector('.all-projects');
     const btn = document.createElement('button');
-    btn.setAttribute('id',`${projectName}-btn`);
-    btn.textContent = projectName;
+    btn.setAttribute('id',`${name}-btn`);
+    btn.textContent = name;
     btn.addEventListener('click',() => {
         headerDisplay(btn.textContent);
         const currentProjectTitle = document.querySelector('.project-title').textContent;
         projectTaskDisplay(currentProjectTitle);
-    })
+    });
     projects.appendChild(btn);
-};
+}
 
 function projectTaskDisplay() {
     const name = document.querySelector('.project-title').textContent;
@@ -140,6 +147,7 @@ function submitTaskForm(name) {
     const addTaskBtn = document.querySelector('.container-task-btn');
     addTaskBtn.remove();
     makeAddTaskBtn();
+    saveData();
 };
 
 function taskDisplay(task, description, date, priority, checkBox) {
@@ -264,6 +272,7 @@ function submitEditTask(index, index2, newTask, newDescription, newDate, newPrio
     allProjects[index].projectDetails.allTasks[index2].description = newDescription.value;
     allProjects[index].projectDetails.allTasks[index2].dueDate = newDate.value;
     allProjects[index].projectDetails.allTasks[index2].priorityList = newPriorityList.value;
+    saveData();
     const taskForm = document.querySelector('.task-form');
     taskForm.remove();
     project.viewProjects();
@@ -279,6 +288,7 @@ function deleteTask(nameOfTask) {
     const currentTaskName = allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName;
     const dataAttribute = document.querySelector(`[data-name='${currentTaskName}']`);
     dataAttribute.remove();
+    saveData();
     allProjects[projectIndex].deleteTask(taskIndex);
     project.viewProjects();
 };
@@ -314,6 +324,7 @@ function saveName(name) {
     const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
     project.editProjectName(index, newProjectTitle.value);
     project.viewProjects();
+    saveData();
     const ChangeNamebtn = document.getElementById(`${name}-btn`);
     ChangeNamebtn.removeAttribute('id');
     ChangeNamebtn.setAttribute('id',`${newProjectTitle.value}-btn`);
@@ -327,12 +338,37 @@ function deleteProject() {
     const index = allProjects.findIndex(p => p.projectDetails.projectName === projectTitle.textContent);
     project.deleteProject(index);
     project.viewProjects();
+    saveData();
     const projectTitleBtn = document.getElementById(`${projectTitle.textContent}-btn`);
     projectTitleBtn.remove();
     const header = document.querySelector('.header');
     header.textContent = '';
     const todoList = document.querySelector('.todo-list');
     todoList.textContent = '';
+};
+//local storage
+function saveData() { 
+    localStorage.setItem("allProjectData", JSON.stringify(allProjects));
+    const allProjectData = JSON.parse(localStorage.getItem("allProjectData"));
+    console.log(allProjectData);
+}
+
+function checkProjectEmpty() {
+    const allProjectData = JSON.parse(localStorage.getItem("allProjectData"));
+  if (localStorage.length !== 0) {
+    if (allProjects.length == 0) {
+        allProjectData.forEach(p => projectNameDisplay(p.projectDetails.projectName));
+        allProjectData.forEach(p => {
+            const projectIndex = allProjects.findIndex(project => project.projectDetails.projectName === (p.projectDetails.projectName));
+            if (p.projectDetails.allTasks.length !== 0) {
+                p.projectDetails.allTasks.forEach(task => {
+                    allProjects[projectIndex].addTask(task.taskName, task.description, task.dueDate, task.priorityList, task.checkBox);
+                }); 
+                console.log(allProjects);
+            }
+        })
+    }; 
+  }; 
 };
 
 
