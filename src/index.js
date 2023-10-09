@@ -142,24 +142,25 @@ function submitTaskForm(name) {
     const index = allProjects.findIndex(p => p.projectDetails.projectName === name);
     allProjects[index].addTask(task.value,description.value,date.value,priorityList.value);
     project.viewProjects();
+    saveData();
     headerDisplay(name);
     taskDisplay(task.value, description.value, date.value, priorityList.value);
     const addTaskBtn = document.querySelector('.container-task-btn');
     addTaskBtn.remove();
     makeAddTaskBtn();
-    saveData();
 };
 
 function taskDisplay(task, description, date, priority, checkBox) {
     const form = document.querySelector('.todo-list');
     const container = document.createElement('div');
-    container.setAttribute('id','task-container');
+    container.classList.add('task-container-display');
     container.setAttribute('data-name', task);
     const bg = document.createElement('div');
-    bg.setAttribute('id','task-background');
+    bg.classList.add('task-background');
     const checkList = document.createElement('input');
     checkList.setAttribute('type','checkbox');
-    checkList.setAttribute('id', 'check-box');
+    checkList.setAttribute('id', task);
+    checkList.classList.add('check-box');
     checkBox == 'checked' ? checkList.checked = true : false;  
     checkList.addEventListener('change' ,() => {
         const saveCheckBox = storeCheckBox(task); 
@@ -170,7 +171,7 @@ function taskDisplay(task, description, date, priority, checkBox) {
         }
     });
     const taskDisplay = document.createElement('label');
-    taskDisplay.setAttribute('class',task);
+    taskDisplay.setAttribute('for',task);
     const h3 = document.createElement('h3');
     h3.setAttribute('id','task-name');
     h3.textContent = task;
@@ -349,12 +350,11 @@ function deleteProject() {
 //local storage
 function saveData() { 
     localStorage.setItem("allProjectData", JSON.stringify(allProjects));
-    const allProjectData = JSON.parse(localStorage.getItem("allProjectData"));
-    console.log(allProjectData);
+    JSON.parse(localStorage.getItem("allProjectData"));
 }
 
 function checkProjectEmpty() {
-    const allProjectData = JSON.parse(localStorage.getItem("allProjectData"));
+  const allProjectData = JSON.parse(localStorage.getItem("allProjectData"));
   if (localStorage.length !== 0) {
     if (allProjects.length == 0) {
         allProjectData.forEach(p => projectNameDisplay(p.projectDetails.projectName));
@@ -363,13 +363,15 @@ function checkProjectEmpty() {
             if (p.projectDetails.allTasks.length !== 0) {
                 p.projectDetails.allTasks.forEach(task => {
                     allProjects[projectIndex].addTask(task.taskName, task.description, task.dueDate, task.priorityList, task.checkBox);
-                }); 
+                    saveData();
+                });
                 console.log(allProjects);
             }
-        })
-    }; 
+        });
+    };
   }; 
 };
+
 
 
 

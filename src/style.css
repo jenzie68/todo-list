@@ -359,11 +359,11 @@ textarea {
     border-radius: 0.3vw; 
 }
 
-#task-container {
+.task-container-display {
     height: 9%;
 }
 
-#task-background {
+.task-background {
     background-color: white;
     width: 80%;
     height: 100%;
@@ -374,7 +374,7 @@ textarea {
     align-items: center;
 }
 
-#task-background > input[type="checkbox"] {
+.task-background > input[type="checkbox"] {
     align-self: center;
     justify-self: center;
     appearance: none;
@@ -393,7 +393,7 @@ textarea {
     background-color: lightgrey;
 }
 
-#task-background > input[type="checkbox"]:checked {
+.task-background > input[type="checkbox"]:checked {
     content: "";
     width: 0.65em;
     height: 0.65em;
@@ -403,7 +403,7 @@ textarea {
     transition: 120ms transform ease-in-out;
 }
 
-#task-background > input[type="checkbox"]:checked::before {
+.task-background > input[type="checkbox"]:checked::before {
     transform: scale(1);
 }
 
