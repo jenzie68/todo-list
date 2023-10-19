@@ -221,7 +221,7 @@ body {
     letter-spacing: 10px;
 }
 
-.add-task-btn {
+#add-task-btn {
     display: grid;
     grid-template-columns: 2fr 3.5fr;
     width: 20%;
@@ -236,17 +236,17 @@ body {
     margin-left: 3rem;
 }
 
-.add-task-btn > div {
+#add-task-btn > div {
     align-self:center;
     justify-self: left;
 }
 
-.add-task-btn > img {
+#add-task-btn > img {
     align-self: center;
     justify-self: center;
 }
 
-.add-task-btn:hover {
+#add-task-btn:hover {
     background-color: #78C4AD;
 }
 

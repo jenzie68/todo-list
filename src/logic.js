@@ -156,8 +156,6 @@ function createTask(nameProj, tsk, descrp, dte, prList) {
     allProjects[index].addTask(tsk,descrp,dte,prList);
 };
 
-
-
 export {
     projectManagement,
     allProjects,
