@@ -4,10 +4,7 @@ import {
     createTask,
     editTask,
     deleteTask,
-    saveName,
-    deleteProject,
     findIndex,
-    addProject
 } from "./logic";
 import { saveData } from "./local-storage.js";
 
@@ -88,11 +85,10 @@ const UI = (() => {
         projectTitle.classList.add('project-title');
         projectTitle.setAttribute('id', projTtle);
         projectTitle.textContent = projTtle;
-        projectTitle.addEventListener('click',() => changeProjName(projTtle));
         append.appendChild(projectTitle);
-    }
+    };
     
-    function taskForm(name) {
+    function taskForm() {
         const header = document.querySelector('.header');
     
         const form = document.createElement('form');
@@ -133,15 +129,10 @@ const UI = (() => {
         submitBtn.setAttribute('type','submit');
         submitBtn.setAttribute('id','submit-task-btn');
         submitBtn.textContent = 'Submit';
-        submitBtn.addEventListener('click',(event) => {
-            event.preventDefault();
-            submitTaskForm(name);
-        });
     
         const cancelBtn = document.createElement('button');
         cancelBtn.setAttribute('id','cancel-task-btn');
         cancelBtn.textContent = 'cancel';
-        cancelBtn.addEventListener('click',() => headerDisplay(name));
     
         header.appendChild(form);
         form.appendChild(task);
@@ -198,6 +189,7 @@ const UI = (() => {
         taskBtns.classList.add('taskBtns');
     
         const deleteBtn = document.createElement('button');
+        deleteBtn.setAttribute('id','delete-task');
         const deleteIcon = document.createElement('img');
         deleteIcon.setAttribute('src','/src/icons/bi_trash-fill.svg');
         deleteBtn.addEventListener('click', (e) => {
@@ -206,6 +198,7 @@ const UI = (() => {
         });
     
         const editTaskBtn = document.createElement('button');
+        editTaskBtn.setAttribute('id','edit-task')
         const editIcon = document.createElement('img');
         editIcon.setAttribute('src','/src/icons/tabler_edit.svg');
         editTaskBtn.addEventListener('click',(e) => {
@@ -271,8 +264,7 @@ const UI = (() => {
     };
     
     function renderEditTask(nameOfTask) {
-        const name = getProjTitle();
-        taskForm(name);
+        taskForm();
         currentTaskInfo(nameOfTask);
         createSaveBtn();
         replaceBtns(nameOfTask);
@@ -339,14 +331,12 @@ const UI = (() => {
         btnContainers.classList.add('btn-containers');
     
         const saveBtn = document.createElement('button');
-        saveBtn.addEventListener('click', () => renderNewTtle(name))
         saveBtn.setAttribute('id','save-btn');
         saveBtn.textContent = 'SAVE';
     
         const cancelBtn = document.createElement('button');
         cancelBtn.textContent = 'CANCEL';
         cancelBtn.setAttribute('id','cancel-btn');
-        cancelBtn.addEventListener('click', () => headerDisplay(name));
     
         header.appendChild(changeNameContainer);
         changeNameContainer.appendChild(newProjectTitle);
@@ -355,20 +345,12 @@ const UI = (() => {
         btnContainers.appendChild(cancelBtn);
     };
     
-    function renderNewTtle(name) {
-        saveName(name);
-        saveData();
-        newTtleBtn(name);
-        headerDisplay(getNewTtle().value);
-    };
-    
     function newTtleBtn(currentProj) {
         const newTitle = getNewTtle(); 
         const ChangeNamebtn = document.getElementById(`${currentProj}-btn`);
         ChangeNamebtn.removeAttribute('id');
         ChangeNamebtn.setAttribute('id',`${newTitle.value}-btn`);
         ChangeNamebtn.textContent = newTitle.value;
-        ChangeNamebtn.addEventListener('click',() => headerDisplay(newTitle.value));
     };
     
     function removeProjectBtn() {
@@ -386,72 +368,16 @@ const UI = (() => {
     return {
         makeProjectBtn,
         makeAddTaskBtn,
+        newTtleBtn,
         removeProjectBtn,
+        submitTaskForm,
         emptyToDoList,
         emptyToDoPage,
         renderSavedTask,
         headerDisplay,
         taskForm,
+        changeProjName,
     }
 })();
 
-const DOMEvents = () => {
-    const d = document;
-    d.addEventListener('click', (e) => {
-        if(e.target.matches('.add-project-btn') || e.target.matches('#add-icon')) {
-            const getProjTitle = getProjName();
-            addProject(getProjTitle.value);
-            UI.makeProjectBtn(getProjTitle.value);
-            getProjTitle.value = '';
-            console.log(allProjects);
-        }
-        if (e.target.matches('.delete-project-btn')) {
-            deleteProject();
-            saveData(); 
-            UI.removeProjectBtn();
-            UI.emptyToDoPage();
-        };
-        if (e.target.matches(`#${e.target.textContent}-btn`)) {
-            UI.headerDisplay(e.target.textContent);
-            UI.emptyToDoList();
-            UI.renderSavedTask();
-            UI.makeAddTaskBtn();
-        }
-        if (e.target.matches('.add-task-btn')) {
-            e.preventDefault();
-            UI.taskForm(getProjTitle());
-        }
-    });
-};
-
-function renderTtleBtn(projectData) {
-    projectData.forEach(p => {
-        addProject(p.projectDetails.projectName);
-        UI.makeProjectBtn(p.projectDetails.projectName);
-    });
-};
-
-function renderTaskDisplay(projectData) {
-    projectData.forEach(p => {
-        const projectIndex = allProjects.findIndex(project => project.projectDetails.projectName === (p.projectDetails.projectName));
-        if (p.projectDetails.allTasks.length !== 0) {
-            p.projectDetails.allTasks.forEach(task => {
-                allProjects[projectIndex].addTask(task.taskName, task.description, task.dueDate, task.priorityList, task.checkBox);
-                saveData();
-            });
-            console.log(allProjects);
-        };
-    });
-};
-
-function renderSavedData() {
-    const allProjectData = JSON.parse(localStorage.getItem("allProjectData"));
-    if (localStorage.length !== 0) {
-      if (allProjects.length == 0) {
-          renderTtleBtn(allProjectData);
-          renderTaskDisplay(allProjectData);
-      };
-    }; 
-};
-
-export { getTaskInfo, getProjName, getNewTtle, getProjTitle, DOMEvents, renderTtleBtn, renderTaskDisplay, renderSavedData }
+export { getTaskInfo, getProjName, getNewTtle, getProjTitle, UI }

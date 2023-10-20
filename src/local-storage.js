@@ -1,4 +1,3 @@
-import { } from "./DOM";
 import { allProjects } from "./logic";
 
 function saveData() { 
