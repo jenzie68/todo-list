@@ -157,7 +157,6 @@ function createTask(nameProj, tsk, descrp, dte, prList) {
 };
 
 export {
-    projectManagement,
     allProjects,
     storeCheckBox,
     saveCheckBox,

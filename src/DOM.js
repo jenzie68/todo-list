@@ -1,12 +1,4 @@
-import { 
-    allProjects, 
-    saveCheckBox,
-    createTask,
-    editTask,
-    deleteTask,
-    findIndex,
-} from "./logic";
-import { saveData } from "./local-storage.js";
+import { allProjects, saveCheckBox, deleteTask, findIndex } from "./logic";
 
 function getProjName() {
     return document.getElementById('get-project-title');
@@ -168,8 +160,7 @@ const UI = (() => {
         checkList.setAttribute('id', task);
         checkList.classList.add('check-box');
         checkBox == 'checked' ? checkList.checked = true : false;  
-        checkList.addEventListener('change', () => saveCheckBox(checkList,task));
-    
+        
         const taskDisplay = document.createElement('label');
         taskDisplay.setAttribute('for',task);
     
@@ -190,22 +181,20 @@ const UI = (() => {
     
         const deleteBtn = document.createElement('button');
         deleteBtn.setAttribute('id','delete-task');
+        deleteBtn.setAttribute('data-name', task);
         const deleteIcon = document.createElement('img');
+        deleteIcon.setAttribute('data-name', task);
+        deleteIcon.setAttribute('id','delete-icon');
         deleteIcon.setAttribute('src','/src/icons/bi_trash-fill.svg');
-        deleteBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            deleteTaskDisplay(task);
-        });
     
         const editTaskBtn = document.createElement('button');
-        editTaskBtn.setAttribute('id','edit-task')
+        editTaskBtn.setAttribute('id','edit-task');
+        editTaskBtn.setAttribute('data-name', task);
         const editIcon = document.createElement('img');
+        editIcon.setAttribute('id','edit-icon');
         editIcon.setAttribute('src','/src/icons/tabler_edit.svg');
-        editTaskBtn.addEventListener('click',(e) => {
-            e.preventDefault();
-            renderEditTask(task);
-        });
-    
+        editIcon.setAttribute('data-name', task);
+
         priorityColor(priority, checkList, dateDisplay);
     
         form.appendChild(container);
@@ -244,30 +233,11 @@ const UI = (() => {
         return saveTaskBtn;
     };
     
-    function replaceBtns(taskName) {
+    function replaceBtns() {
         const submitTaskBtn = document.getElementById('submit-task-btn');
         const saveTaskBtn = createSaveBtn();
-        saveTaskBtn.addEventListener('click',(e) => {
-            e.preventDefault();
-            submitEditTask(taskName);
-        });
+        saveTaskBtn.setAttribute('id','save-task-btn');
         submitTaskBtn.replaceWith(saveTaskBtn);
-    };
-
-    function submitTaskForm(name) {
-        const taskInfo = getTaskInfo()
-        createTask(name, taskInfo.task, taskInfo.description, taskInfo.date, taskInfo.priorityList);
-        taskDisplay(taskInfo.task, taskInfo.description, taskInfo.date, taskInfo.priorityList);
-        headerDisplay(name);
-        updateUITaskBtn();
-        saveData();
-    };
-    
-    function renderEditTask(nameOfTask) {
-        taskForm();
-        currentTaskInfo(nameOfTask);
-        createSaveBtn();
-        replaceBtns(nameOfTask);
     };
     
     function currentTaskInfo(nameTask) {
@@ -285,16 +255,6 @@ const UI = (() => {
         getDescription.value = details;
         getDate.value = dueDate;
         getPriorityList.value = priority;
-    };
-    
-    function submitEditTask(taskName) {
-        removeDataNameAttribute(taskName);
-        editTask(taskName);
-        saveData();
-        const newInfo = getTaskInfo();
-        taskDisplay(newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
-        removeTaskForm();
-        updateUITaskBtn();
     };
     
     function removeDataNameAttribute(nameOfTask) {
@@ -366,17 +326,24 @@ const UI = (() => {
     };
     
     return {
+        createSaveBtn,
+        currentTaskInfo,
+        changeProjName,
+        deleteTaskDisplay,
+        emptyToDoList,
+        emptyToDoPage,
         makeProjectBtn,
         makeAddTaskBtn,
         newTtleBtn,
+        removeDataNameAttribute,
         removeProjectBtn,
-        submitTaskForm,
-        emptyToDoList,
-        emptyToDoPage,
+        removeTaskForm,
+        replaceBtns,
         renderSavedTask,
         headerDisplay,
         taskForm,
-        changeProjName,
+        taskDisplay,
+        updateUITaskBtn,
     }
 })();
 
