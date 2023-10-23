@@ -1,4 +1,4 @@
-import { allProjects, deleteTask, findIndex } from "./logic";
+import { allProjects,disablePreviousDates, deleteTask, findIndex } from "./logic";
 
 function getProjName() {
     return document.getElementById('get-project-title');
@@ -99,6 +99,7 @@ const UI = (() => {
         const date = document.createElement('input');
         date.setAttribute('type','date');
         date.setAttribute('id','get-date');
+        disablePreviousDates(date);
     
         const priorityList = document.createElement('select');
         priorityList.setAttribute('id','get-priority-list');

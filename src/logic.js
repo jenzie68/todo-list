@@ -156,8 +156,24 @@ function createTask(nameProj, tsk, descrp, dte, prList) {
     allProjects[index].addTask(tsk,descrp,dte,prList);
 };
 
+function disablePreviousDates(date) {
+    let dtToday = new Date();
+ 
+    let month = dtToday.getMonth() + 1;
+    let day = dtToday.getDate();
+    let year = dtToday.getFullYear();
+    if(month < 10)
+        month = '0' + month.toString();
+    if(day < 10)
+        day = '0' + day.toString();
+    
+    let maxDate = year + '-' + month + '-' + day;
+    date.setAttribute('min', maxDate);
+}
+
 export {
     allProjects,
+    disablePreviousDates,
     storeCheckBox,
     saveCheckBox,
     createTask,
