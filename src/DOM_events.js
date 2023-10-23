@@ -16,6 +16,7 @@ const DOMEvents = () => {
     let currentProj;
     let task;
     let newInfo;
+    let btn;
     d.addEventListener('click', (e) => {
         if(e.target.matches('.add-project-btn') || e.target.matches('#add-icon')) {
             const getProjTitle = getProjName();
@@ -31,6 +32,13 @@ const DOMEvents = () => {
             UI.emptyToDoPage();
         }
         if (e.target.matches(`#${e.target.textContent}-project-btn`)) {
+            if (btn != null) {
+                btn.style.color = '#92C1B2';
+                btn.style.backgroundColor = 'white'
+            }
+            btn = document.getElementById(`${e.target.textContent}-project-btn`);
+            btn.style.color = 'white';
+            btn.style.backgroundColor = '#92C1B2'
             UI.headerDisplay(e.target.textContent);
             UI.emptyToDoList();
             UI.renderSavedTask();
@@ -91,7 +99,7 @@ const DOMEvents = () => {
             UI.taskDisplay(newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
             UI.removeTaskForm();
             UI.updateUITaskBtn();
-        }
+        };
     });
     d.addEventListener('change', (e) => {
         if (e.target.matches('.check-box')) {

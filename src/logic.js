@@ -99,6 +99,7 @@ const storeCheckBox = (nameOfTask) => {
 function saveCheckBox(box,nameOfTask) {
     const checkBox = storeCheckBox(nameOfTask); 
     if (box.checked == true) {
+        box.style.backgroundColor = '#6eb49f';
         checkBox.check();
     } else {
         checkBox.unchecked();
