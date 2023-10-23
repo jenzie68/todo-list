@@ -1,4 +1,4 @@
-import { allProjects, saveCheckBox, deleteTask, findIndex } from "./logic";
+import { allProjects, deleteTask, findIndex } from "./logic";
 
 function getProjName() {
     return document.getElementById('get-project-title');
@@ -29,7 +29,7 @@ const getTaskInfo = () => {
 const UI = (() => {
     function makeProjectBtn(name) {
         const btn = document.createElement('button');
-        btn.setAttribute('id',`${name}-btn`);
+        btn.setAttribute('id',`${name}-project-btn`);
         btn.textContent = name;
     
         const projects = document.querySelector('.all-projects');
@@ -160,7 +160,7 @@ const UI = (() => {
         checkList.setAttribute('id', task);
         checkList.classList.add('check-box');
         checkBox == 'checked' ? checkList.checked = true : false;  
-        
+
         const taskDisplay = document.createElement('label');
         taskDisplay.setAttribute('for',task);
     
@@ -307,15 +307,15 @@ const UI = (() => {
     
     function newTtleBtn(currentProj) {
         const newTitle = getNewTtle(); 
-        const ChangeNamebtn = document.getElementById(`${currentProj}-btn`);
+        const ChangeNamebtn = document.getElementById(`${currentProj}-project-btn`);
         ChangeNamebtn.removeAttribute('id');
-        ChangeNamebtn.setAttribute('id',`${newTitle.value}-btn`);
+        ChangeNamebtn.setAttribute('id',`${newTitle.value}-project-btn`);
         ChangeNamebtn.textContent = newTitle.value;
     };
     
     function removeProjectBtn() {
         const projectTitle = document.querySelector('.project-title');
-        const projectTitleBtn = document.getElementById(`${projectTitle.textContent}-btn`);
+        const projectTitleBtn = document.getElementById(`${projectTitle.textContent}-project-btn`);
         projectTitleBtn.remove();
     };
     

@@ -1,6 +1,15 @@
 import { UI, getProjTitle, getNewTtle, getProjName, getTaskInfo } from "./DOM";
-import { addProject, deleteProject, saveName, allProjects, createTask, editTask, saveCheckBox} from "./logic";
+import { addProject, deleteProject, saveName, allProjects, createTask, editTask, saveCheckBox } from "./logic";
 import { saveData } from "./local-storage";
+import { pubsub } from './pubsub.js';
+
+pubsub.subscribe('addProj', addProject);
+pubsub.subscribe('dleteProj',deleteProject);
+pubsub.subscribe('saveName', saveName);
+pubsub.subscribe('saveData', saveData);
+pubsub.subscribe('createTask', createTask);
+pubsub.subscribe('editTask', editTask);
+pubsub.subscribe('saveBox', saveCheckBox);
 
 const DOMEvents = () => {
     const d = document;
@@ -10,18 +19,18 @@ const DOMEvents = () => {
     d.addEventListener('click', (e) => {
         if(e.target.matches('.add-project-btn') || e.target.matches('#add-icon')) {
             const getProjTitle = getProjName();
-            addProject(getProjTitle.value);
+            pubsub.publish('addProj', getProjTitle.value);
             UI.makeProjectBtn(getProjTitle.value);
             getProjTitle.value = '';
             console.log(allProjects);
         }
         if (e.target.matches('.delete-project-btn')) {
-            deleteProject();
-            saveData(); 
+            pubsub.publish('dleteProj');
+            pubsub.publish('saveData');
             UI.removeProjectBtn();
             UI.emptyToDoPage();
         }
-        if (e.target.matches(`#${e.target.textContent}-btn`)) {
+        if (e.target.matches(`#${e.target.textContent}-project-btn`)) {
             UI.headerDisplay(e.target.textContent);
             UI.emptyToDoList();
             UI.renderSavedTask();
@@ -39,8 +48,8 @@ const DOMEvents = () => {
             headerDisplay(e.target.textContent);
         }
         if (e.target.matches('#save-btn')) {
-            saveName(currentProj);
-            saveData();
+            pubsub.publish('saveName', currentProj);
+            pubsub.publish('saveData');
             UI.newTtleBtn(currentProj);
             UI.headerDisplay(getNewTtle().value);
         }
@@ -51,12 +60,11 @@ const DOMEvents = () => {
             e.preventDefault();
             let projTitle = getProjTitle();
             newInfo = getTaskInfo();
-            createTask(projTitle, newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
+            pubsub.publish('createTask', projTitle, newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
             UI.taskDisplay(newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
             UI.headerDisplay(projTitle);
             UI.updateUITaskBtn();
-            saveData();
-            
+            pubsub.publish('saveData', saveData); 
         }
         if (e.target.matches('#cancel-task-btn')) {
             e.preventDefault();
@@ -77,8 +85,8 @@ const DOMEvents = () => {
         if (e.target.matches('#save-task-btn')) {
             e.preventDefault();
             UI.removeDataNameAttribute(task);
-            editTask(task);
-            saveData();
+            pubsub.publish('editTask', task);
+            pubsub.publish('saveData');
             newInfo = getTaskInfo();
             UI.taskDisplay(newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
             UI.removeTaskForm();
@@ -87,9 +95,9 @@ const DOMEvents = () => {
     });
     d.addEventListener('change', (e) => {
         if (e.target.matches('.check-box')) {
-            let task = document.getElementById(e.target.getAttribute('id'))
-            saveCheckBox(task, e.target.getAttribute('id'));
-            saveData();
+            let task = document.getElementById(e.target.getAttribute('id'));
+            pubsub.publish('saveBox',task, e.target.getAttribute('id'));
+            pubsub.publish('saveData'); 
         }
     });
 };
