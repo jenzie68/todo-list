@@ -100,12 +100,12 @@ const DOMEvents = () => {
             UI.removeTaskForm();
             UI.updateUITaskBtn();
         };
-        if (e.target.matches('.today')) {
+        if (e.target.matches('.today') || e.target.textContent == "Today") {
             UI.emptyToDoPage();
             UI.headerDisplay('TODAY');
             todayAndUpcomingTask().displayTodayTasks();
         };
-        if (e.target.matches('.upcoming')) {
+        if (e.target.matches('.upcoming') || e.target.textContent == "Upcoming") {
             UI.emptyToDoPage();
             UI.headerDisplay('UPCOMING');
             todayAndUpcomingTask().displayUpcomingTask();

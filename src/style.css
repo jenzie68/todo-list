@@ -103,7 +103,6 @@ body {
 
 .today:hover,
 .upcoming:hover,
-#projects-btn:hover,
 .all-projects > button:hover {
     background: #6eb49f;
     opacity: 50%;
