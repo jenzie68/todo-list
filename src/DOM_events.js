@@ -1,5 +1,5 @@
 import { UI, getProjTitle, getNewTtle, getProjName, getTaskInfo } from "./DOM";
-import { addProject, deleteProject, saveName, allProjects, createTask, editTask, saveCheckBox, todayTask } from "./logic";
+import { addProject, deleteProject, saveName, allProjects, createTask, editTask, saveCheckBox, todayAndUpcomingTask } from "./logic";
 import { saveData } from "./local-storage";
 import { pubsub } from './pubsub.js';
 
@@ -103,8 +103,13 @@ const DOMEvents = () => {
         if (e.target.matches('.today')) {
             UI.emptyToDoPage();
             UI.headerDisplay('TODAY');
-            todayTask().allTodayTasks();
-        }
+            todayAndUpcomingTask().displayTodayTasks();
+        };
+        if (e.target.matches('.upcoming')) {
+            UI.emptyToDoPage();
+            UI.headerDisplay('UPCOMING');
+            todayAndUpcomingTask().displayUpcomingTask();
+        };
     });
     d.addEventListener('change', (e) => {
         if (e.target.matches('.check-box')) {

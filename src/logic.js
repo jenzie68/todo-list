@@ -171,7 +171,7 @@ function disablePreviousDates(date) {
     date.setAttribute('min', maxDate);
 }
 
-const todayTask = () => {
+const todayAndUpcomingTask = () => {
     const todayDate = () => {
         let today = new Date();
         let dd = String(today.getDate()).padStart(2, '0');
@@ -181,15 +181,20 @@ const todayTask = () => {
         return today = yyyy + '-' + mm + '-' + dd;
     }
 
-    const allTodayTasks = () => allProjects.forEach(p => p.projectDetails.allTasks.forEach(t => {
+    const displayTodayTasks = () => allProjects.forEach(p => p.projectDetails.allTasks.forEach(t => {
         if (t.dueDate == todayDate()) {
             UI.taskDisplay(t.taskName, t.description, t.dueDate, t.priorityList, t.checkBox);
         }
-    }));  
+    })); 
     
-    return { allTodayTasks }
+    const displayUpcomingTask = () =>  allProjects.forEach(p => p.projectDetails.allTasks.forEach(t => {
+        if (t.dueDate !== todayDate()) {
+            UI.taskDisplay(t.taskName, t.description, t.dueDate, t.priorityList, t.checkBox);
+        }
+    })); 
+    
+    return { displayTodayTasks, displayUpcomingTask }
 }
-
 
 export {
     allProjects,
@@ -202,7 +207,7 @@ export {
     deleteTask,
     editTask,
     saveName,
-    todayTask,
+    todayAndUpcomingTask,
     deleteProject,
     findIndex,
 }
