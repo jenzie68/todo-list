@@ -104,7 +104,7 @@ const DOMEvents = () => {
     d.addEventListener('change', (e) => {
         if (e.target.matches('.check-box')) {
             let task = document.getElementById(e.target.getAttribute('id'));
-            pubsub.publish('saveBox',task, e.target.getAttribute('id'));
+            pubsub.publish('saveBox',task, e.target.getAttribute('id'), e.target.style.backgroundColor);
             pubsub.publish('saveData'); 
         }
     });

@@ -1,4 +1,4 @@
-import { getTaskInfo, getNewTtle, getProjTitle } from "./DOM.js";
+import { getTaskInfo, getNewTtle, getProjTitle, UI } from "./DOM.js";
 import { saveData } from "./local-storage.js";
 
 const allProjects = [];
@@ -99,7 +99,6 @@ const storeCheckBox = (nameOfTask) => {
 function saveCheckBox(box,nameOfTask) {
     const checkBox = storeCheckBox(nameOfTask); 
     if (box.checked == true) {
-        box.style.backgroundColor = '#6eb49f';
         checkBox.check();
     } else {
         checkBox.unchecked();

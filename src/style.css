@@ -378,33 +378,26 @@ textarea {
     align-self: center;
     justify-self: center;
     appearance: none;
-    background-color: #fff;
     margin: 0;
     font: inherit;
-    color: #6eb49f;
     width: 2.15em;
+    border-color: #6eb49f;
+    border-style: solid;
     height: 2.15em;
-    border: 0.15em solid currentColor;
     border-radius: 0.15em;
     transform: translateY(-0.075em);
     display: grid;
     place-content: center;    
     border-radius: 3vw;
-    background-color: lightgrey;
 }
 
 .task-background > input[type="checkbox"]:checked {
     content: "";
     width: 0.65em;
     height: 0.65em;
-    background-color: #6eb49f;
-    color: #6eb49f;
     transform: scale(3);
+    background-color: #6eb49f !important;
     transition: 120ms transform ease-in-out;
-}
-
-.task-background > input[type="checkbox"]:checked::before {
-    transform: scale(1);
 }
 
 .todo-list {

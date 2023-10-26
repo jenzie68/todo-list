@@ -213,10 +213,13 @@ const UI = (() => {
     };
     
     function priorityColor(priority, checkBox, date) {
+        if (priority == 'not-important') {
+            checkBox.style.backgroundColor = '#d3d3d3';
+        }
         if (priority == 'urgent') {
             checkBox.style.backgroundColor = '#F65C5C';
             date.style.color = '#F65C5C';
-        } else if (priority == 'important') {
+        } if (priority == 'important') {
             checkBox.style.backgroundColor = '#F6D35C';
             date.style.color = '#F6D35C';
         }
@@ -342,6 +345,7 @@ const UI = (() => {
         replaceBtns,
         renderSavedTask,
         headerDisplay,
+        priorityColor,
         taskForm,
         taskDisplay,
         updateUITaskBtn,
