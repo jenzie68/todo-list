@@ -30,6 +30,7 @@ const UI = (() => {
     function makeProjectBtn(name) {
         const btn = document.createElement('button');
         btn.setAttribute('id',`${name}-project-btn`);
+        btn.classList.add('project-btn');
         btn.textContent = name;
     
         const projects = document.querySelector('.all-projects');

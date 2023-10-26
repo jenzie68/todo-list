@@ -1,5 +1,5 @@
 import { UI, getProjTitle, getNewTtle, getProjName, getTaskInfo } from "./DOM";
-import { addProject, deleteProject, saveName, allProjects, createTask, editTask, saveCheckBox } from "./logic";
+import { addProject, deleteProject, saveName, allProjects, createTask, editTask, saveCheckBox, todayTask } from "./logic";
 import { saveData } from "./local-storage";
 import { pubsub } from './pubsub.js';
 
@@ -31,7 +31,7 @@ const DOMEvents = () => {
             UI.removeProjectBtn();
             UI.emptyToDoPage();
         }
-        if (e.target.matches(`#${e.target.textContent}-project-btn`)) {
+        if (e.target.matches(`.project-btn`)) {
             if (btn != null) {
                 btn.style.color = '#92C1B2';
                 btn.style.backgroundColor = 'white'
@@ -100,6 +100,11 @@ const DOMEvents = () => {
             UI.removeTaskForm();
             UI.updateUITaskBtn();
         };
+        if (e.target.matches('.today')) {
+            UI.emptyToDoPage();
+            UI.headerDisplay('TODAY');
+            todayTask().allTodayTasks();
+        }
     });
     d.addEventListener('change', (e) => {
         if (e.target.matches('.check-box')) {

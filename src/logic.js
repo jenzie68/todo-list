@@ -171,6 +171,26 @@ function disablePreviousDates(date) {
     date.setAttribute('min', maxDate);
 }
 
+const todayTask = () => {
+    const todayDate = () => {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        let yyyy = today.getFullYear();
+
+        return today = yyyy + '-' + mm + '-' + dd;
+    }
+
+    const allTodayTasks = () => allProjects.forEach(p => p.projectDetails.allTasks.forEach(t => {
+        if (t.dueDate == todayDate()) {
+            UI.taskDisplay(t.taskName, t.description, t.dueDate, t.priorityList, t.checkBox);
+        }
+    }));  
+    
+    return { allTodayTasks }
+}
+
+
 export {
     allProjects,
     disablePreviousDates,
@@ -182,7 +202,8 @@ export {
     deleteTask,
     editTask,
     saveName,
+    todayTask,
     deleteProject,
     findIndex,
-    }
+}
 
