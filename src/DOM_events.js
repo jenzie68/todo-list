@@ -67,7 +67,6 @@ const DOMEvents = () => {
         if (e.target.matches('#submit-task-btn')) {
             e.preventDefault();
             UI.removeBlurAttribute();
-            UI.removeTaskForm();
             let projTitle = getProjTitle();
             newInfo = getTaskInfo();
             pubsub.publish('createTask', projTitle, newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
@@ -75,6 +74,7 @@ const DOMEvents = () => {
             UI.headerDisplay(projTitle);
             UI.updateUITaskBtn();
             pubsub.publish('saveData', saveData); 
+            UI.removeTaskForm();
         }
         if (e.target.matches('#cancel-task-btn')) {
             e.preventDefault();
