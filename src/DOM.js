@@ -82,7 +82,8 @@ const UI = (() => {
     };
     
     function taskForm() {
-        const header = document.querySelector('.header');
+        const bg = document.querySelector('.todo-list-container');
+        bg.setAttribute('id','blur') 
     
         const form = document.createElement('form');
         form.classList.add('task-form');
@@ -128,7 +129,7 @@ const UI = (() => {
         cancelBtn.setAttribute('id','cancel-task-btn');
         cancelBtn.textContent = 'cancel';
     
-        header.appendChild(form);
+        document.body.appendChild(form);
         form.appendChild(task);
         form.appendChild(description);
         form.appendChild(date);
@@ -140,6 +141,11 @@ const UI = (() => {
         btnContainers.appendChild(submitBtn);
         btnContainers.appendChild(cancelBtn);
     };
+
+    function removeBlurAttribute() {
+        const todoListContainer = document.querySelector('.todo-list-container');
+        todoListContainer.removeAttribute('id');
+    }
 
     function updateUITaskBtn() {
         const addTaskBtn = document.querySelector('.container-task-btn');
@@ -343,6 +349,7 @@ const UI = (() => {
         removeDataNameAttribute,
         removeProjectBtn,
         removeTaskForm,
+        removeBlurAttribute,
         replaceBtns,
         renderSavedTask,
         headerDisplay,

@@ -66,6 +66,8 @@ const DOMEvents = () => {
         }
         if (e.target.matches('#submit-task-btn')) {
             e.preventDefault();
+            UI.removeBlurAttribute();
+            UI.removeTaskForm();
             let projTitle = getProjTitle();
             newInfo = getTaskInfo();
             pubsub.publish('createTask', projTitle, newInfo.task, newInfo.description, newInfo.date, newInfo.priorityList);
@@ -76,6 +78,8 @@ const DOMEvents = () => {
         }
         if (e.target.matches('#cancel-task-btn')) {
             e.preventDefault();
+            UI.removeBlurAttribute();
+            UI.removeTaskForm();
             UI.headerDisplay(getProjTitle());
         }
         if (e.target.matches('#delete-task') || e.target.matches('#delete-icon')) {
@@ -92,6 +96,7 @@ const DOMEvents = () => {
         }
         if (e.target.matches('#save-task-btn')) {
             e.preventDefault();
+            UI.removeBlurAttribute();
             UI.removeDataNameAttribute(task);
             pubsub.publish('editTask', task);
             pubsub.publish('saveData');

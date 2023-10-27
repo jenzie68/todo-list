@@ -29,6 +29,7 @@ body {
     grid-template-rows: 0.6fr 4fr;
     height: 100vh;
     width: 100vw;
+    position: relative;
 }
 
 .todo-list-container {
@@ -296,14 +297,17 @@ body {
 
 .task-form {
     display: flex;
+    position: absolute;
     flex-direction: column;
     padding: 3rem;
     justify-content: space-between;
     position: absolute;
-    top: 7rem;
-    left: 4rem;
     height: 13rem;
     width: 45%;
+    left: 30%;
+    margin-left: -50px;
+    top: 30%;
+    margin-top: -50px;
     background: white;
     z-index: 1;
 }
@@ -427,6 +431,25 @@ textarea {
 #date-display {
     font-weight: bolder;
     font-size: 1.6rem;
+}
+
+#blur   {
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+}
+
+#overlay    {
+    position: fixed;
+    display: none;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(255,255,255,.8);
+    z-index: 999;
 }
 
 
