@@ -52,9 +52,6 @@ const DOMEvents = () => {
             UI.changeProjName(e.target.textContent);
             currentProj = e.target.textContent;
         }
-        if (e.target.matches(`${e.target.textContent}-btn`)) {
-            headerDisplay(e.target.textContent);
-        }
         if (e.target.matches('#save-btn')) {
             pubsub.publish('saveName', currentProj);
             pubsub.publish('saveData');
