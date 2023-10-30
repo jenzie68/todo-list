@@ -188,7 +188,7 @@ const todayAndUpcomingTask = () => {
     })); 
     
     const displayUpcomingTask = () =>  allProjects.forEach(p => p.projectDetails.allTasks.forEach(t => {
-        if (t.dueDate !== todayDate()) {
+        if (t.dueDate > todayDate()) {
             UI.taskDisplay(t.taskName, t.description, t.dueDate, t.priorityList, t.checkBox);
         }
     })); 

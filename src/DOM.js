@@ -226,7 +226,8 @@ const UI = (() => {
         if (priority == 'urgent') {
             checkBox.style.backgroundColor = '#F65C5C';
             date.style.color = '#F65C5C';
-        } if (priority == 'important') {
+        } 
+        if (priority == 'important') {
             checkBox.style.backgroundColor = '#F6D35C';
             date.style.color = '#F6D35C';
         }
