@@ -59,6 +59,7 @@ const UI = (() => {
         addIconImg.classList.add('add-task-btn');
         
         const div = document.createElement('div');
+        div.classList.add('add-task-btn');
         div.textContent = 'Add Task';
     
         addTaskBtn.appendChild(addIconImg);
