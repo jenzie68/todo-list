@@ -123,25 +123,24 @@ function deleteProject() {
 }
 
 const findIndex = (() => {
-  const projectIndex = () => {
-    const name = getProjTitle();
+  const projectIndex = (name = getProjTitle()) => {
     const index = allProjects.findIndex(
       (p) => p.projectDetails.projectName === name,
     );
     return index;
   };
 
-  const taskIndex = (nameTask) =>
-    allProjects[projectIndex()].projectDetails.allTasks.findIndex(
+  const taskIndex = (nameTask, projName) =>
+    allProjects[projectIndex(projName)].projectDetails.allTasks.findIndex(
       (p) => p.taskName === nameTask,
     );
 
   return { projectIndex, taskIndex };
 })();
 
-function deleteTask(nameTask) {
-  const projIndex = findIndex.projectIndex();
-  const taskIndex = findIndex.taskIndex(nameTask);
+function deleteTask(nameTask, projectName) {
+  const projIndex = findIndex.projectIndex(projectName);
+  const taskIndex = findIndex.taskIndex(nameTask, projectName);
   allProjects[projIndex].deleteTask(taskIndex);
   saveData();
 }
@@ -155,9 +154,9 @@ function saveName(currentProj) {
   project.viewProjects();
 }
 
-function editTask(nameTask) {
-  const projectIndex = findIndex.projectIndex();
-  const taskIndex = findIndex.taskIndex(nameTask);
+function editTask(nameTask, nameOfProject) {
+  const projectIndex = findIndex.projectIndex(nameOfProject);
+  const taskIndex = findIndex.taskIndex(nameTask, nameOfProject);
   const newInfo = getTaskInfo();
   allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName =
     newInfo.task;
@@ -232,6 +231,19 @@ const todayAndUpcomingTask = () => {
   return { displayTodayTasks, displayUpcomingTask };
 };
 
+function findProjectName(nameOfTask) {
+  let name;
+  allProjects.forEach(p => {
+    p.projectDetails.allTasks.forEach(t => {
+      if (t.taskName == nameOfTask) {
+         name = p.projectDetails.projectName;
+      };
+    });
+  });
+
+  return name;
+}
+
 export {
   allProjects,
   disablePreviousDates,
@@ -246,4 +258,5 @@ export {
   todayAndUpcomingTask,
   deleteProject,
   findIndex,
+  findProjectName,
 };

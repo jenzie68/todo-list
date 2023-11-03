@@ -3,6 +3,7 @@ import {
   disablePreviousDates,
   deleteTask,
   findIndex,
+  findProjectName,
 } from "./logic";
 
 function getProjName() {
@@ -258,17 +259,16 @@ const UI = (() => {
     return saveTaskBtn;
   }
 
-  function replaceBtns() {
+  function replaceBtns(taskName) {
     const submitTaskBtn = document.getElementById("submit-task-btn");
     const saveTaskBtn = createSaveBtn();
     saveTaskBtn.setAttribute("id", "save-task-btn");
+    saveTaskBtn.setAttribute("data-name", taskName)
     submitTaskBtn.replaceWith(saveTaskBtn);
   }
 
-  function currentTaskInfo(nameOfTask, targetProjectName) {
-    const projectIndex = allProjects.findIndex(
-      (p) => p.projectDetails.projectName === targetProjectName,
-    );
+  function currentTaskInfo(nameOfTask, projectName) {
+    const projectIndex = findIndex.projectIndex(projectName);
     const taskIndex = allProjects[
       projectIndex
     ].projectDetails.allTasks.findIndex((p) => p.taskName === nameOfTask);
@@ -290,9 +290,9 @@ const UI = (() => {
     getPriorityList.value = priority;
   }
 
-  function removeDataNameAttribute(nameOfTask) {
-    const projectIndex = findIndex.projectIndex();
-    const taskIndex = findIndex.taskIndex(nameOfTask);
+  function removeDataNameAttribute(nameOfTask, projectName) {
+    const projectIndex = findIndex.projectIndex(projectName);
+    const taskIndex = findIndex.taskIndex(nameOfTask, projectName);
     const currentTaskName =
       allProjects[projectIndex].projectDetails.allTasks[taskIndex].taskName;
     const dataAttribute = document.querySelector(
@@ -304,11 +304,6 @@ const UI = (() => {
   function removeTaskForm() {
     const taskForm = document.querySelector(".task-form");
     taskForm.remove();
-  }
-
-  function deleteTaskDisplay(nameOfTask) {
-    removeDataNameAttribute(nameOfTask);
-    deleteTask(nameOfTask);
   }
 
   function changeProjName(name) {
@@ -367,7 +362,6 @@ const UI = (() => {
     createSaveBtn,
     currentTaskInfo,
     changeProjName,
-    deleteTaskDisplay,
     emptyToDoList,
     emptyToDoPage,
     makeProjectBtn,
@@ -386,5 +380,7 @@ const UI = (() => {
     updateUITaskBtn,
   };
 })();
+
+findProjectName("STUDY");
 
 export { getTaskInfo, getProjName, getNewTtle, getProjTitle, UI };

@@ -2,12 +2,13 @@ import { UI, getProjTitle, getNewTtle, getProjName, getTaskInfo } from "./DOM";
 import {
   addProject,
   deleteProject,
+  deleteTask,
   saveName,
-  allProjects,
   createTask,
   editTask,
   saveCheckBox,
   todayAndUpcomingTask,
+  findProjectName,
 } from "./logic";
 import { saveData } from "./local-storage";
 import { pubsub } from "./pubsub.js";
@@ -31,8 +32,17 @@ const DOMEvents = () => {
       const getProjTitle = getProjName();
       pubsub.publish("addProj", getProjTitle.value);
       UI.makeProjectBtn(getProjTitle.value);
+      if (btn != null) {
+        btn.style.color = "#92C1B2";
+        btn.style.backgroundColor = "white";
+      }
+      btn = document.getElementById(`${getProjTitle.value}-project-btn`);
+      btn.style.color = "white";
+      btn.style.backgroundColor = "#92C1B2";
+      UI.headerDisplay(getProjTitle.value);
+      UI.emptyToDoList();
+      UI.makeAddTaskBtn();
       getProjTitle.value = "";
-      console.log(allProjects);
     }
     if (e.target.matches(".delete-project-btn")) {
       pubsub.publish("dleteProj");
@@ -102,21 +112,27 @@ const DOMEvents = () => {
     }
     if (e.target.matches("#delete-task") || e.target.matches("#delete-icon")) {
       e.preventDefault();
-      UI.deleteTaskDisplay(e.target.getAttribute("data-name"));
+      task = e.target.getAttribute("data-name");
+      let nameOfProject = findProjectName(task);
+      UI.removeDataNameAttribute(task, nameOfProject)
+      deleteTask(task, nameOfProject);
     }
     if (e.target.matches("#edit-task") || e.target.matches("#edit-icon")) {
       e.preventDefault();
-      task = e.target.getAttribute("data-name");
       UI.taskForm();
-      UI.currentTaskInfo(task, e.target.getAttribute("data-project-name"));
+      task = e.target.getAttribute("data-name");
+      let nameOfProject = findProjectName(task);
+      UI.currentTaskInfo(task, nameOfProject);
       UI.createSaveBtn();
       UI.replaceBtns(task);
     }
     if (e.target.matches("#save-task-btn")) {
       e.preventDefault();
       UI.removeBlurAttribute();
-      UI.removeDataNameAttribute(task);
-      pubsub.publish("editTask", task);
+      task = e.target.getAttribute("data-name");
+      let nameOfProject = findProjectName(task);
+      UI.removeDataNameAttribute(task, nameOfProject);
+      pubsub.publish("editTask", task, nameOfProject);
       pubsub.publish("saveData");
       newInfo = getTaskInfo();
       UI.taskDisplay(
@@ -126,7 +142,10 @@ const DOMEvents = () => {
         newInfo.priorityList,
       );
       UI.removeTaskForm();
-      UI.updateUITaskBtn();
+      const addTaskBtn = document.querySelector(".container-task-btn");
+      if ((addTaskBtn !== null)) {
+        UI.updateUITaskBtn();
+      }
     }
     if (e.target.matches(".today") || e.target.textContent == "Today") {
       UI.emptyToDoPage();
