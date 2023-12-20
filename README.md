@@ -7,7 +7,7 @@
  - webpack
  - factory functions and module pattern
 # Additional functions/features when I come back
-[ ] lower opacity for all styles inside task container once checked
-[ ] mobile resposiveness
-[ ] implement all solid principles in code
+- [ ] lower opacity for all styles inside task container once checked
+- [ ] mobile resposiveness
+- [ ] implement all solid principles in code
  
