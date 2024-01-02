@@ -1,7 +1,6 @@
 import {
   allProjects,
   disablePreviousDates,
-  deleteTask,
   findIndex,
   findProjectName,
 } from "./logic";

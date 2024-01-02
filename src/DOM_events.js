@@ -114,7 +114,7 @@ const DOMEvents = () => {
       e.preventDefault();
       task = e.target.getAttribute("data-name");
       let nameOfProject = findProjectName(task);
-      UI.removeDataNameAttribute(task, nameOfProject)
+      UI.removeDataNameAttribute(task, nameOfProject);
       deleteTask(task, nameOfProject);
     }
     if (e.target.matches("#edit-task") || e.target.matches("#edit-icon")) {
